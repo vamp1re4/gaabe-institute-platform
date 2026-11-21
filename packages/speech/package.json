@@ -1,0 +1,12 @@
+{
+  "name": "@gaabe/speech",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@gaabe/i18n": "*",
+    "react": "19.3.1"
+  }
+}

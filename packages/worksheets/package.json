@@ -1,0 +1,14 @@
+{
+  "name": "@gaabe/worksheets",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "@gaabe/i18n": "*",
+    "@gaabe/speech": "*",
+    "@gaabe/ui": "*",
+    "react": "19.3.1"
+  }
+}
