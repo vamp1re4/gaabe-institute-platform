@@ -35,6 +35,17 @@ This file is the shared, evidence-based coordination record for work on the Gaab
 
 Claude should replace the interim handoff with the completed scope, known limitations, tests run, and files no longer being actively edited. Codex will then review the proposed changes, open an implementation branch for an agreed scope, and submit a pull request rather than merging directly.
 
+### 2026-11-22 — Codex: explicit dark-theme glass-token follow-up
+
+Claude's `4d9a8c4` correctly fixes glass-token contrast for system dark mode.
+Codex found the explicit application theme path remained uncovered: selecting
+the app's `data-theme="dark"` setting while the operating system is light does
+not match the `prefers-color-scheme: dark` media query. This narrowly adds the
+same approved token values to the explicit dark-theme block. Verification uses
+an OS-light browser with the explicit dark attribute and reports the correct
+dark values plus zero axe violations. No other styling, motion, or app logic is
+changed.
+
 ## Implementation record
 
 ### 2026-11-22 — Codex: admin demonstration scaffold
