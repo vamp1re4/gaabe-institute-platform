@@ -3,7 +3,7 @@
 Bilingual (Dhivehi / English) Islamic education platform for Gaabe Sir: student web app, admin web app, and shared packages.
 
 **Repository:** `vamp1re4/gaabe-institute-platform` (private)
-**Commissioned through:** Tech.Tasks Maldives — this project is **isolated** from every other Tech.Tasks project (techtasks.store, AXIS, EVA, UNIX, …). Never reuse their secrets, databases, domains or deployments.
+**Commissioned through:** Tech.Tasks Maldives. This project must stay **isolated** from all other Tech.Tasks Maldives applications: separate repository, database, secrets and deployment. Any hostname used for it (e.g. a subdomain of the owner's domain) must be host-scoped, with no cookies or storage shared with other apps.
 
 ## Team
 
