@@ -593,7 +593,7 @@ th {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: var(--text);
 }
 :lang(dv) th {
   text-transform: none;
@@ -691,8 +691,21 @@ th {
   }
 }
 .admin-main {
-  padding: var(--space-5);
+  min-block-size: 100%;
+  background:
+    radial-gradient(circle at 85% 8%, rgb(49 91 206 / 0.16), transparent 28rem),
+    radial-gradient(circle at 12% 28%, rgb(183 193 204 / 0.3), transparent 24rem);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-5);
   min-width: 0;
+}
+.admin-main .card {
+  border-color: rgb(183 193 204 / 0.34);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .admin-main {
+    background: var(--bg);
+  }
 }
 .stat {
   font-size: 2rem;

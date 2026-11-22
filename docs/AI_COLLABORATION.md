@@ -73,3 +73,20 @@ locale-aware. It also adds visible descriptions for unavailable actions and an
 the demo worksheet metadata still bundles answer keys; production must obtain
 authorised worksheet metadata from an API and never ship answer keys to a
 student-facing client.
+
+### 2026-11-22 — Codex: integrated demo polish and independent QA
+
+Codex combined the already re-reviewed admin demonstration branch with the
+separate product-polish branch only on `codex/integrated-demo-polish`; neither
+source branch nor `main` was merged. The integration applies the agreed Cobalt
+Noir liquid-glass treatment to admin cards, keeps the student interface
+frosted and minimal, and preserves solid fallbacks for browsers or user
+preferences that reduce transparency. It also fixes the dashboard's published
+lesson total so it excludes a draft course.
+
+Codex independently re-ran `npm run verify` (typecheck, 26 tests, and both
+production builds) and the axe WCAG 2 A/AA/best-practice scan. Axe found and
+Codex fixed insufficient contrast on muted course badges and table headers;
+the final scan was clean on 12 student routes and 6 admin routes. No
+screen-reader, real-device, DNS, email-delivery, merge, or deployment claim is
+made by this record.

@@ -28,7 +28,10 @@ function AdminBody({ children }: { children: ReactNode }) {
 
 function Dashboard() {
   const published = courses.filter((course) => course.status === 'published').length;
-  const lessons = courses.flatMap((course) => course.modules).flatMap((module) => module.lessons).length;
+  const lessons = courses
+    .filter((course) => course.status === 'published')
+    .flatMap((course) => course.modules)
+    .flatMap((module) => module.lessons).length;
   const teacherGraded = worksheets.flatMap((worksheet) => worksheet.questions).filter((question) => question.type === 'essay').length;
   return (
     <Page title={<T k="admin.nav.dashboard" />}>
@@ -37,7 +40,7 @@ function Dashboard() {
         <Metric label="Published courses" value={String(published)} note={`${lessons} sample lessons`} />
         <Metric label="Teacher-graded prompts" value={String(teacherGraded)} note="Demo worksheet items" />
       </section>
-      <section className="card stack">
+      <section className="card glass-liquid stack">
         <div><h2>Production readiness</h2><p>What this demonstration can and cannot do is deliberately visible to staff.</p></div>
         <ul>
           <li>Course, worksheet, and document records below are fictional browser data.</li>
@@ -50,7 +53,7 @@ function Dashboard() {
 }
 
 function Metric({ label, value, note }: { label: string; value: string; note: string }) {
-  return <section className="card stack"><p className="eyebrow">{label}</p><strong style={{ fontSize: '2.2rem' }}>{value}</strong><small>{note}</small></section>;
+  return <section className="card glass-liquid stack"><p className="eyebrow">{label}</p><strong style={{ fontSize: '2.2rem' }}>{value}</strong><small>{note}</small></section>;
 }
 
 function Students() {
@@ -79,7 +82,7 @@ function Courses() {
   return (
     <Page title={<T k="admin.nav.courses" />}>
       <label><input type="checkbox" checked={showDrafts} onChange={(event) => setShowDrafts(event.target.checked)} /> Show unpublished sample courses</label>
-      <div className="grid">{visible.map((course) => <section className="card stack" key={course.id}>
+      <div className="grid">{visible.map((course) => <section className="card glass-liquid stack" key={course.id}>
         <div><Badge tone={course.status === 'draft' ? 'muted' : 'default'}>{course.status}</Badge> <Badge tone={course.free ? 'default' : 'gold'}>{course.free ? 'Free' : 'Premium'}</Badge></div>
         <div><h2>{course.title}</h2><p>{course.summary}</p></div>
         <small>{course.modules.length} modules · {course.modules.flatMap((module) => module.lessons).length} lessons</small>
@@ -100,15 +103,15 @@ function Worksheets() {
 
 function Content() {
   return <Page title={<T k="admin.nav.documents" />}>
-    <section className="card stack"><h2>Secure document processing</h2><p>No source document is uploaded through this prototype. A production pipeline must validate file type and size, malware-scan, store originals privately, queue conversion, preserve language metadata, and authorize every rendered page and audio segment.</p><div className="stack"><button type="button" className="btn" aria-disabled="true" aria-describedby="document-upload-note" onClick={(event) => event.preventDefault()}>Upload document (not connected)</button><small id="document-upload-note">Uploading needs private storage and server-side file validation.</small></div></section>
-    <section className="card stack"><h2>Read Aloud review</h2><p>English browser speech is a browser capability; Dhivehi speech remains unavailable until a verified provider and native-speaker review are complete. Quranic Arabic must use approved recordings, not generic synthesis.</p><Lang code="dv">ދަރުސްތައް</Lang></section>
+    <section className="card glass-liquid stack"><h2>Secure document processing</h2><p>No source document is uploaded through this prototype. A production pipeline must validate file type and size, malware-scan, store originals privately, queue conversion, preserve language metadata, and authorize every rendered page and audio segment.</p><div className="stack"><button type="button" className="btn" aria-disabled="true" aria-describedby="document-upload-note" onClick={(event) => event.preventDefault()}>Upload document (not connected)</button><small id="document-upload-note">Uploading needs private storage and server-side file validation.</small></div></section>
+    <section className="card glass-liquid stack"><h2>Read Aloud review</h2><p>English browser speech is a browser capability; Dhivehi speech remains unavailable until a verified provider and native-speaker review are complete. Quranic Arabic must use approved recordings, not generic synthesis.</p><Lang code="dv">ދަރުސްތައް</Lang></section>
   </Page>;
 }
 
 function Subscriptions() {
   return <Page title={<T k="admin.nav.subscriptions" />}>
     <Notice tone="error">Payment and entitlement decisions are not implemented. Never grant paid access from browser state or this demonstration screen.</Notice>
-    <section className="card stack"><h2>Required production controls</h2><ul><li>Server-verified payment state machine with idempotency and audit events.</li><li>Manual-transfer review that remains pending until authorized staff verify evidence.</li><li>Short-lived, entitlement-checked access for premium lessons, media, documents, and audio.</li></ul></section>
+    <section className="card glass-liquid stack"><h2>Required production controls</h2><ul><li>Server-verified payment state machine with idempotency and audit events.</li><li>Manual-transfer review that remains pending until authorized staff verify evidence.</li><li>Short-lived, entitlement-checked access for premium lessons, media, documents, and audio.</li></ul></section>
   </Page>;
 }
 
