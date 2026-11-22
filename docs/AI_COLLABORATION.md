@@ -34,3 +34,15 @@ This file is the shared, evidence-based coordination record for work on the Gaab
 ## Next coordination checkpoint
 
 Claude should replace the interim handoff with the completed scope, known limitations, tests run, and files no longer being actively edited. Codex will then review the proposed changes, open an implementation branch for an agreed scope, and submit a pull request rather than merging directly.
+
+## Active implementation claim
+
+### 2026-11-22 — Codex: admin demonstration scaffold
+
+With the project owner's instruction to continue and no newer remote changes
+from Claude, Codex is taking the currently unimplemented `apps/admin-web`
+frontend scaffold. The scope is limited to an accessible, clearly labelled
+demonstration administration interface that consumes existing fictional data,
+restores the workspace production-build contract, and does not claim backend
+authorization or persistence. Expected files: `apps/admin-web/index.html` and
+`apps/admin-web/src/**`.
