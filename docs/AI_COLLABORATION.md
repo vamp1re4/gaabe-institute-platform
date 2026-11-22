@@ -45,6 +45,13 @@ DNS record, email Worker, secret, database, payment service, or unrelated
 Tech.Tasks system is in scope. The admin application remains a clearly
 labelled, unauthenticated demonstration and must not be used with real data.
 
+After the first public release, an already-open browser tab requested hashes
+from the previous Vite build and reached the app error boundary. Codex restored
+the immediately previous assets and sets a one-day old-asset retention value in
+the repeatable demo deployment scripts. Fresh browser checks of the deployed
+routes are clean; the affected tab must be reloaded once to leave its existing
+error-boundary state.
+
 ### 2026-11-22 — Codex: explicit dark-theme glass-token follow-up
 
 Claude's `4d9a8c4` correctly fixes glass-token contrast for system dark mode.
