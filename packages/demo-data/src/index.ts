@@ -127,6 +127,7 @@ export const courses: Course[] = [
 
 export const publishedCourses = courses.filter((c) => c.status === 'published');
 
+/** Fictional learner records used only to exercise admin list states. Never use these as real identities. */
 export function findCourse(id: string | undefined): Course | undefined {
   return courses.find((c) => c.id === id);
 }
@@ -293,6 +294,7 @@ export interface DemoStudent {
   id: string;
   name: string;
   email: string;
+  courseId: string;
   plan: string;
   progress: number;
   status: 'active' | 'suspended' | 'invited';
@@ -300,10 +302,10 @@ export interface DemoStudent {
 }
 
 export const students: DemoStudent[] = [
-  { id: 'st1', name: 'Demo Student 01', email: 'demo01@example.invalid', plan: 'monthly', progress: 62, status: 'active', joined: '2026-09-02' },
-  { id: 'st2', name: 'Demo Student 02', email: 'demo02@example.invalid', plan: 'term', progress: 35, status: 'active', joined: '2026-09-14' },
-  { id: 'st3', name: 'Demo Student 03', email: 'demo03@example.invalid', plan: 'free', progress: 8, status: 'invited', joined: '2026-10-01' },
-  { id: 'st4', name: 'Demo Student 04', email: 'demo04@example.invalid', plan: 'monthly', progress: 90, status: 'suspended', joined: '2026-08-20' },
+  { id: 'st1', name: 'Demo Student 01', email: 'demo01@example.invalid', courseId: 'sample-foundations', plan: 'monthly', progress: 62, status: 'active', joined: '2026-09-02' },
+  { id: 'st2', name: 'Demo Student 02', email: 'demo02@example.invalid', courseId: 'sample-practice', plan: 'term', progress: 35, status: 'active', joined: '2026-09-14' },
+  { id: 'st3', name: 'Demo Student 03', email: 'demo03@example.invalid', courseId: 'sample-revision', plan: 'free', progress: 8, status: 'invited', joined: '2026-10-01' },
+  { id: 'st4', name: 'Demo Student 04', email: 'demo04@example.invalid', courseId: 'sample-foundations', plan: 'monthly', progress: 90, status: 'suspended', joined: '2026-08-20' },
 ];
 
 export const adminStats = { students: students.length, activeSubscriptions: 2, publishedCourses: publishedCourses.length, draftItems: 2 };

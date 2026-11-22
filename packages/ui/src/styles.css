@@ -228,6 +228,14 @@ a {
 .muted {
   color: var(--text-muted);
 }
+.eyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
 
 /* ===== Header / nav ===== */
 .site-header {
