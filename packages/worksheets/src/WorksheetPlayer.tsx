@@ -26,6 +26,7 @@ export interface WorksheetPlayerProps {
 export function WorksheetPlayer({ worksheet, onSubmitted }: WorksheetPlayerProps) {
   const { t } = useI18n();
   const [state, setState] = useState(() => loadSaved(worksheet.id));
+  const [confirming, setConfirming] = useState(false);
   const { answers, submitted } = state;
 
   useEffect(() => {
@@ -46,8 +47,8 @@ export function WorksheetPlayer({ worksheet, onSubmitted }: WorksheetPlayerProps
     setState((s) => ({ ...s, answers: { ...s.answers, [id]: value } }));
 
   function submit() {
-    if (!window.confirm(t('worksheet.confirmSubmit'))) return;
     setState((s) => ({ ...s, submitted: true }));
+    setConfirming(false);
     onSubmitted?.(gradeWorksheet(worksheet, answers));
   }
 
@@ -107,9 +108,20 @@ export function WorksheetPlayer({ worksheet, onSubmitted }: WorksheetPlayerProps
       })}
 
       {!submitted && (
-        <Button onClick={submit} disabled={answered === 0}>
-          <T k="worksheet.submit" />
-        </Button>
+        confirming ? (
+          <section className="card stack" aria-labelledby="worksheet-submit-confirmation">
+            <h2 id="worksheet-submit-confirmation"><T k="worksheet.submit" /></h2>
+            <p><T k="worksheet.confirmSubmit" /></p>
+            <div className="row">
+              <Button onClick={submit}><T k="worksheet.submit" /></Button>
+              <Button variant="ghost" onClick={() => setConfirming(false)}><T k="common.cancel" /></Button>
+            </div>
+          </section>
+        ) : (
+          <Button onClick={() => setConfirming(true)} disabled={answered === 0}>
+            <T k="worksheet.submit" />
+          </Button>
+        )
       )}
     </form>
   );
