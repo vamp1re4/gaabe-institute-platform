@@ -8,17 +8,17 @@ describe('i18n', () => {
     expect(LOCALES.en.dir).toBe('ltr');
   });
 
-  it('returns Dhivehi draft entries tagged as dv', () => {
+  it('returns reviewed Dhivehi entries tagged as dv', () => {
     const r = translate('dv', 'nav.courses');
     expect(r.lang).toBe('dv');
     expect(r.fallback).toBe(false);
-    expect(r.status).toBe('draft');
+    expect(r.status).toBe('reviewed');
   });
 
-  it('falls back to English, flagged, for untranslated keys', () => {
+  it('has reviewed Dhivehi copy for every interface key', () => {
     const r = translate('dv', 'home.hero.title');
-    expect(r.lang).toBe('en');
-    expect(r.fallback).toBe(true);
+    expect(r.lang).toBe('dv');
+    expect(r.fallback).toBe(false);
   });
 
   it('interpolates variables', () => {
