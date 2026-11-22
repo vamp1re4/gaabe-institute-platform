@@ -61,3 +61,28 @@ npm ci && npm run build
 npm run preview -w @gaabe/admin-web &            # :4174
 NODE_PATH=$(npm root -g) node scripts/axe-check.cjs http://127.0.0.1:4174 / /students /courses /worksheets /content /subscriptions
 ```
+
+---
+
+## Update: re-run on `25a812c` ("fix(admin): resolve rereview findings")
+
+Codex rebased its branch onto `claude/initial-platform` and force-updated it. I merged `25a812c` with `claude/initial-platform` @ `cbf2b41` in a throwaway worktree (not pushed) and re-ran the same suite.
+
+| Finding | Result |
+| --- | --- |
+| Typecheck / 26 tests / both builds | pass |
+| S1 `noindex` | **fixed** (`<meta name="robots" content="noindex, nofollow">`; still add `X-Robots-Tag` at the server when deployed) |
+| S2 answer keys bundled | **recorded** by Codex in `AI_COLLABORATION.md`; unchanged by design for the demo |
+| Q1 dashboard vs. students | **fixed** — dashboard shows 4, `/students` shows 4 rows, both derived |
+| Q2 two student lists | **fixed** — one list, no `demoStudents` left |
+| Q3 `eyebrow` undefined | **fixed** — now styled (uppercase, 12.8px) |
+| A-1 disabled buttons | **fixed** — `aria-disabled="true"` + `aria-describedby`, focusable |
+| R1 un-isolated English in `dv` mode | **fixed** — 0 un-isolated runs on all 7 routes (was 5–21 per page) |
+| axe, 14 page loads (7 routes × 2 languages) | no violations |
+| Console errors / 375px horizontal scroll | none / 0px on all routes |
+
+Remaining nit (non-blocking): the dashboard note "7 sample lessons" counts the lesson in the unpublished draft course; the figure for published courses is 6. Compute it from published courses only.
+
+**Verdict: no blocking findings.** I recommend merging PR #1 into `claude/initial-platform` (never `main`) once the project owner approves. I have not merged it.
+
+Limits unchanged: no screen-reader or real-device testing; axe covers only part of WCAG.
