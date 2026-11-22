@@ -30,7 +30,15 @@ const NAV: NavItem[] = [
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    // Some embedded mobile WebViews reject programmatic scrolling. Navigation
+    // must still succeed when that optional polish cannot run.
+    try {
+      window.scrollTo(0, 0);
+    } catch {
+      // Preserve the current scroll position rather than failing the route.
+    }
+  }, [pathname]);
   return null;
 }
 
