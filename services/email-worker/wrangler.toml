@@ -1,0 +1,11 @@
+name = "gaabe-demo-email"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+EMAIL_FROM = "Gaabe Institute <noreply@mail.techtasks.store>"
+
+# Secrets must be set through wrangler secret put:
+# RESEND_API_KEY
+# EMAIL_JOB_TOKEN
+# No routes or custom domains are assigned by default.
