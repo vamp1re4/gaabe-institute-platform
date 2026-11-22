@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { T, useI18n } from '@gaabe/i18n';
 import { ReadAloudToolbar } from '@gaabe/speech';
-import { Badge, Button, Notice, ProgressBar } from '@gaabe/ui';
+import { Badge, Button, Lang, Notice, ProgressBar } from '@gaabe/ui';
 import { countAnswered, gradeWorksheet } from './grade';
 import type { Answer, Answers, Question, QuestionResult, Worksheet, WorksheetResult } from './types';
 
@@ -60,7 +60,7 @@ export function WorksheetPlayer({ worksheet, onSubmitted }: WorksheetPlayerProps
       <Notice>
         <T k="worksheet.demoGrading" />
       </Notice>
-      {worksheet.instructions && <p>{worksheet.instructions}</p>}
+      {worksheet.instructions && <p><Lang>{worksheet.instructions}</Lang></p>}
 
       {!submitted && (
         <div className="row row-between" aria-live="polite">
@@ -190,7 +190,7 @@ function Input({
               }`}
             >
               <input type="radio" name={q.id} checked={answer === o.id} onChange={() => onChange(o.id)} />
-              <span>{o.text}</span>
+              <span><Lang code={q.promptLang}>{o.text}</Lang></span>
             </label>
           ))}
         </div>
@@ -208,7 +208,7 @@ function Input({
                   onChange(e.target.checked ? [...chosen, o.id] : chosen.filter((x) => x !== o.id))
                 }
               />
-              <span>{o.text}</span>
+              <span><Lang code={q.promptLang}>{o.text}</Lang></span>
             </label>
           ))}
         </div>
@@ -263,7 +263,7 @@ function Input({
         <div className="stack">
           {q.left.map((l) => (
             <div key={l.id} className="row" style={{ alignItems: 'stretch' }}>
-              <span style={{ flex: '1 1 10rem' }}>{l.text}</span>
+              <span style={{ flex: '1 1 10rem' }}><Lang code={q.promptLang}>{l.text}</Lang></span>
               <select
                 style={{ flex: '1 1 10rem' }}
                 aria-label={`${l.text}: ${t('worksheet.matchChoose')}`}
@@ -299,7 +299,7 @@ function Input({
             return (
               <li key={id}>
                 <div className="row">
-                  <span style={{ flex: '1 1 10rem' }}>{item?.text}</span>
+                  <span style={{ flex: '1 1 10rem' }}><Lang code={q.promptLang}>{item?.text}</Lang></span>
                   <Button size="sm" variant="ghost" aria-label={`${t('worksheet.moveUp')}: ${item?.text}`} onClick={() => move(idx, -1)} disabled={idx === 0}>
                     ↑
                   </Button>

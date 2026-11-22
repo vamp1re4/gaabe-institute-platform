@@ -121,7 +121,7 @@ body {
 :root:lang(dv),
 :lang(dv) {
   font-family: var(--font-thaana);
-  line-height: 1.95;
+  line-height: 1.75;
   letter-spacing: 0;
 }
 :lang(ar) {
@@ -133,6 +133,13 @@ body {
 :lang(en) {
   font-family: var(--font-latin);
   line-height: 1.6;
+}
+/* Chrome stays compact in every language; content paragraphs set their own rhythm. */
+.demo-banner,
+.site-header,
+.btn,
+.badge {
+  line-height: 1.45;
 }
 img,
 svg {
@@ -238,6 +245,7 @@ a {
   min-height: 4rem;
 }
 .brand {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -263,6 +271,7 @@ a {
 }
 .nav-links a,
 .mobile-menu a {
+  white-space: nowrap;
   color: var(--header-text);
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
@@ -280,6 +289,8 @@ a {
 }
 .header-tools {
   margin-inline-start: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   display: flex;
   gap: var(--space-2);
   align-items: center;
@@ -296,7 +307,8 @@ a {
   display: grid;
   gap: var(--space-1);
 }
-@media (min-width: 62rem) {
+/* Eight destinations plus controls need room: use the menu button below 84rem. */
+@media (min-width: 84rem) {
   .nav-links {
     display: flex;
   }
@@ -653,4 +665,24 @@ th {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+.mobile-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  padding-block-end: var(--space-3);
+  margin-block-end: var(--space-2);
+  border-block-end: 1px solid rgb(255 255 255 / 0.15);
+}
+
+/* The header may be wider than page content so the primary nav fits on one line. */
+.site-header .container {
+  width: min(100% - 2rem, 92rem);
+}
+.lang-switch {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
 }

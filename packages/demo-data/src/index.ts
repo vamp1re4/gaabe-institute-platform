@@ -6,6 +6,8 @@
 import type { SpeechLang } from '@gaabe/speech';
 import type { Worksheet } from '@gaabe/worksheets';
 
+export * from './demoPdf';
+
 export const DEMO_LABEL = 'DEMO';
 
 export interface ContentBlock {

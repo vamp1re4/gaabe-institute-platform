@@ -8,6 +8,20 @@ import {
 } from 'react';
 import { LOCALES, T, useI18n, type Locale, type MessageKey } from '@gaabe/i18n';
 
+/**
+ * Marks a run of CONTENT (not UI chrome) with its own language and direction, isolated from the
+ * surrounding bidi context. Without this, English text inside an RTL page gets its punctuation
+ * (e.g. a trailing full stop) reordered to the wrong end. Content records should always carry
+ * their language; never infer it from the text.
+ */
+export function Lang({ code = 'en', children }: { code?: 'en' | 'dv' | 'ar'; children: ReactNode }) {
+  return (
+    <bdi lang={code} dir={code === 'en' ? 'ltr' : 'rtl'}>
+      {children}
+    </bdi>
+  );
+}
+
 /* ---------- primitives ---------- */
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -65,7 +79,7 @@ export function DemoBanner({ messageKey = 'common.demoNotice' }: { messageKey?: 
 export function LanguageSwitcher() {
   const { locale, setLocale, t } = useI18n();
   return (
-    <div className="row" role="group" aria-label={t('nav.language')} style={{ gap: 4 }}>
+    <div className="lang-switch" role="group" aria-label={t('nav.language')}>
       {(Object.keys(LOCALES) as Locale[]).map((l) => (
         <button
           key={l}
@@ -117,12 +131,39 @@ export function ThemeToggle() {
       aria-label={`${t('nav.theme')}: ${theme}`}
       title={`${t('nav.theme')}: ${theme}`}
     >
-      {theme === 'dark' ? '☾' : theme === 'light' ? '☀' : '◐'}
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {theme === 'dark' ? (
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        ) : theme === 'light' ? (
+          <>
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </>
+        ) : (
+          <>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" />
+          </>
+        )}
+      </svg>
     </button>
   );
 }
 
 /* ---------- header / shell ---------- */
+
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() => (typeof window !== 'undefined' ? window.matchMedia(query).matches : false));
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const update = () => setMatches(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, [query]);
+  return matches;
+}
+
 
 export interface NavItem {
   to: string;
@@ -143,6 +184,15 @@ export interface ShellProps {
 export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, children, demoBanner }: ShellProps) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
+  // Controls render exactly once: in the header on wide screens, inside the menu on narrow ones.
+  const wide = useMediaQuery('(min-width: 48rem)');
+  const controls = (
+    <>
+      {tools}
+      <LanguageSwitcher />
+      <ThemeToggle />
+    </>
+  );
   return (
     <>
       <a className="skip-link" href="#main">
@@ -169,9 +219,7 @@ export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, child
               ))}
             </nav>
             <div className="header-tools">
-              {tools}
-              <LanguageSwitcher />
-              <ThemeToggle />
+              {wide && controls}
               <button
                 type="button"
                 className="btn btn-ghost btn-sm menu-button"
@@ -185,6 +233,7 @@ export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, child
             </div>
           </div>
           <nav id="mobile-menu" className="mobile-menu" data-open={open} aria-label="Mobile">
+            {!wide && <div className="mobile-tools">{controls}</div>}
             {nav.map((n) => (
               <span key={n.to}>
                 {renderLink({ to: n.to, children: <T k={n.labelKey} />, onClick: () => setOpen(false) })}

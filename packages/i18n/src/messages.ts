@@ -120,6 +120,7 @@ export const en = {
   'worksheet.title': 'Worksheets',
   'worksheet.question': 'Question {n} of {total}',
   'worksheet.points': '{n} points',
+  'worksheet.questionCount': '{n} questions',
   'worksheet.answered': '{answered} of {total} answered',
   'worksheet.submit': 'Submit worksheet',
   'worksheet.confirmSubmit': 'Submit your answers? You cannot change them afterwards.',
