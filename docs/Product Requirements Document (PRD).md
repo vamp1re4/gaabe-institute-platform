@@ -6,12 +6,12 @@ Gaabe Institute is a Dhivehi-first Islamic education platform for students and a
 
 ## Demonstration routes
 
-Proposed routes, subject to domain-owner/DNS confirmation:
+Confirmed hostnames; DNS/deployment configuration remains subject to domain-owner approval:
 
 - Student demonstration: `clientdemo.techtasks.store`
 - Staff demonstration: `admindemo.techtasks.store`
 
-The requested `clientdemo.tasktasks.store` has an apparent spelling difference from the stated parent domain `techtasks.store`; no DNS record or deployment is authorised by this document.
+No DNS record or deployment is authorised by this document.
 
 ## Audiences and outcomes
 
