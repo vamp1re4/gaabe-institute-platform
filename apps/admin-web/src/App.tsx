@@ -2,7 +2,7 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { T } from '@gaabe/i18n';
 import { Badge, Button, DemoBanner, Lang, Notice, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
-import { courses, worksheets } from '@gaabe/demo-data';
+import { courses, demoStudents, worksheets } from '@gaabe/demo-data';
 
 const NAV: NavItem[] = [
   { to: '/', labelKey: 'admin.nav.dashboard' },
@@ -17,17 +17,12 @@ function Page({ title, children }: { title: ReactNode; children: ReactNode }) {
   return <div className="container page stack"><h1>{title}</h1>{children}</div>;
 }
 
-function DemoWarning() {
-  return <Notice tone="info"><T k="admin.mockNotice" /></Notice>;
-}
-
 function Dashboard() {
   const published = courses.filter((course) => course.status === 'published').length;
   const lessons = courses.flatMap((course) => course.modules).flatMap((module) => module.lessons).length;
   return (
     <Page title={<T k="admin.nav.dashboard" />}>
-      <DemoWarning />
-      <section className="grid grid-3" aria-label="Demonstration overview">
+      <section className="grid" aria-label="Demonstration overview">
         <Metric label="Sample students" value="24" note="Fictional records" />
         <Metric label="Published courses" value={String(published)} note={`${lessons} sample lessons`} />
         <Metric label="Pending review" value="3" note="Demo worksheet responses" />
@@ -48,24 +43,21 @@ function Metric({ label, value, note }: { label: string; value: string; note: st
   return <section className="card stack"><p className="eyebrow">{label}</p><strong style={{ fontSize: '2.2rem' }}>{value}</strong><small>{note}</small></section>;
 }
 
-const students = [
-  { name: 'Aisha Hassan', course: 'Sample Course A — Foundations', status: 'Active' },
-  { name: 'Mohamed Rilwan', course: 'Sample Course B — Guided Practice', status: 'Trial' },
-  { name: 'Fathimath N.', course: 'Sample Course C — Revision', status: 'Payment pending' },
-] as const;
-
 function Students() {
   const [query, setQuery] = useState('');
-  const filtered = students.filter((student) => student.name.toLowerCase().includes(query.toLowerCase()));
+  const filtered = demoStudents.filter((student) => student.name.toLowerCase().includes(query.toLowerCase()));
   return (
     <Page title={<T k="admin.nav.students" />}>
-      <DemoWarning />
       <label className="stack" style={{ maxInlineSize: '30rem' }}>
         <span><T k="common.search" /></span>
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search sample students" />
       </label>
-      <div className="table-wrap"><table><thead><tr><th>Name</th><th>Course</th><th><T k="common.status" /></th></tr></thead>
-        <tbody>{filtered.map((student) => <tr key={student.name}><td>{student.name}</td><td>{student.course}</td><td><Badge tone={student.status === 'Payment pending' ? 'danger' : 'default'}>{student.status}</Badge></td></tr>)}</tbody>
+      <div className="table-wrap"><table><caption className="sr-only">Fictional learner records for the administration demonstration</caption><thead><tr><th scope="col">Name</th><th scope="col">Course</th><th scope="col"><T k="common.status" /></th></tr></thead>
+        <tbody>{filtered.map((student) => {
+          const course = courses.find((item) => item.id === student.courseId);
+          const status = student.status === 'payment-pending' ? 'Payment pending' : student.status === 'trial' ? 'Trial' : 'Active';
+          return <tr key={student.id}><td><Lang code="en">{student.name}</Lang></td><td><Lang code="en">{course?.title ?? 'Unknown sample course'}</Lang></td><td><Badge tone={student.status === 'payment-pending' ? 'danger' : 'default'}>{status}</Badge></td></tr>;
+        })}</tbody>
       </table></div>
       {filtered.length === 0 && <Notice>No sample student matches that search.</Notice>}
     </Page>
@@ -77,11 +69,10 @@ function Courses() {
   const visible = useMemo(() => courses.filter((course) => showDrafts || course.status === 'published'), [showDrafts]);
   return (
     <Page title={<T k="admin.nav.courses" />}>
-      <DemoWarning />
       <label><input type="checkbox" checked={showDrafts} onChange={(event) => setShowDrafts(event.target.checked)} /> Show unpublished sample courses</label>
-      <div className="grid grid-2">{visible.map((course) => <section className="card stack" key={course.id}>
+      <div className="grid">{visible.map((course) => <section className="card stack" key={course.id}>
         <div><Badge tone={course.status === 'draft' ? 'muted' : 'default'}>{course.status}</Badge> <Badge tone={course.free ? 'default' : 'gold'}>{course.free ? 'Free' : 'Premium'}</Badge></div>
-        <div><h2>{course.title}</h2><p>{course.summary}</p></div>
+        <div><h2><Lang code="en">{course.title}</Lang></h2><p><Lang code="en">{course.summary}</Lang></p></div>
         <small>{course.modules.length} modules · {course.modules.flatMap((module) => module.lessons).length} lessons</small>
         <Button disabled title="A server-backed editor is not available in this demonstration">Edit (not connected)</Button>
       </section>)}</div>
@@ -91,17 +82,15 @@ function Courses() {
 
 function Worksheets() {
   return <Page title={<T k="admin.nav.worksheets" />}>
-    <DemoWarning />
     <Notice>Question authoring, answer keys, version publishing, and grading must be server-authorized. This list is read-only demo data.</Notice>
-    <div className="table-wrap"><table><thead><tr><th>Worksheet</th><th>Questions</th><th>Review state</th></tr></thead><tbody>
-      {worksheets.map((worksheet) => <tr key={worksheet.id}><td>{worksheet.title}</td><td>{worksheet.questions.length}</td><td><Badge tone="muted">Demo only</Badge></td></tr>)}
+    <div className="table-wrap"><table><caption className="sr-only">Fictional worksheets in the administration demonstration</caption><thead><tr><th scope="col">Worksheet</th><th scope="col">Questions</th><th scope="col">Review state</th></tr></thead><tbody>
+      {worksheets.map((worksheet) => <tr key={worksheet.id}><td><Lang code="en">{worksheet.title}</Lang></td><td>{worksheet.questions.length}</td><td><Badge tone="muted">Demo only</Badge></td></tr>)}
     </tbody></table></div>
   </Page>;
 }
 
 function Content() {
   return <Page title={<T k="admin.nav.documents" />}>
-    <DemoWarning />
     <section className="card stack"><h2>Secure document processing</h2><p>No source document is uploaded through this prototype. A production pipeline must validate file type and size, malware-scan, store originals privately, queue conversion, preserve language metadata, and authorize every rendered page and audio segment.</p><Button disabled>Upload document (not connected)</Button></section>
     <section className="card stack"><h2>Read Aloud review</h2><p>English browser speech is a browser capability; Dhivehi speech remains unavailable until a verified provider and native-speaker review are complete. Quranic Arabic must use approved recordings, not generic synthesis.</p><Lang code="dv">ދަރުސްތައް</Lang></section>
   </Page>;
@@ -109,7 +98,6 @@ function Content() {
 
 function Subscriptions() {
   return <Page title={<T k="admin.nav.subscriptions" />}>
-    <DemoWarning />
     <Notice tone="error">Payment and entitlement decisions are not implemented. Never grant paid access from browser state or this demonstration screen.</Notice>
     <section className="card stack"><h2>Required production controls</h2><ul><li>Server-verified payment state machine with idempotency and audit events.</li><li>Manual-transfer review that remains pending until authorized staff verify evidence.</li><li>Short-lived, entitlement-checked access for premium lessons, media, documents, and audio.</li></ul></section>
   </Page>;
@@ -118,7 +106,7 @@ function Subscriptions() {
 export function App() {
   return <SiteShell
     nav={NAV}
-    demoBanner={<DemoBanner />}
+    demoBanner={<DemoBanner messageKey="admin.mockNotice" />}
     brandSuffix={<small> · <T k="admin.title" /></small>}
     homeLink={(children) => <Link to="/" className="brand">{children}</Link>}
     renderLink={({ to, children, onClick }) => <NavLink to={to} end={to === '/'} onClick={onClick}>{children}</NavLink>}

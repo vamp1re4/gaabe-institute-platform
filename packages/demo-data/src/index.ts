@@ -127,6 +127,13 @@ export const courses: Course[] = [
 
 export const publishedCourses = courses.filter((c) => c.status === 'published');
 
+/** Fictional learner records used only to exercise admin list states. Never use these as real identities. */
+export const demoStudents = [
+  { id: 'demo-student-01', name: 'Demo learner A', courseId: 'sample-foundations', status: 'active' as const },
+  { id: 'demo-student-02', name: 'Demo learner B', courseId: 'sample-practice', status: 'trial' as const },
+  { id: 'demo-student-03', name: 'Demo learner C', courseId: 'sample-revision', status: 'payment-pending' as const },
+] as const;
+
 export function findCourse(id: string | undefined): Course | undefined {
   return courses.find((c) => c.id === id);
 }
