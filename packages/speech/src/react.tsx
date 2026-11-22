@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, useSyncExternalStore } from 'react';
 import { T, useI18n } from '@gaabe/i18n';
 import { getPlaybackController } from './controller';
+import { resolveProvider } from './providers';
 import { PLAYBACK_RATES, type PlaybackState, type SpeechSegment } from './types';
 
 export function usePlayback(): PlaybackState {
@@ -53,13 +54,7 @@ export function ReadAloudToolbar({ queueId, segments, label, compact }: ReadAlou
   // Pre-flight: tell the truth about availability before the user presses Play.
   let preflight: string | null = null;
   if (first) {
-    const provider = (() => {
-      const p = c.getProviders();
-      if (first.audioUrl && first.audioKind === 'teacher') return p.teacher;
-      if (first.lang === 'ar') return p.arabic;
-      if (first.lang === 'dv') return p.dhivehi;
-      return p.browser;
-    })();
+    const provider = resolveProvider(first, c.getProviders());
     const a = provider.supports(first);
     if (!a.available) preflight = `speech.unavailable.${a.reason}`;
   }
