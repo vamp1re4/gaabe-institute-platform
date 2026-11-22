@@ -90,3 +90,21 @@ Codex fixed insufficient contrast on muted course badges and table headers;
 the final scan was clean on 12 student routes and 6 admin routes. No
 screen-reader, real-device, DNS, email-delivery, merge, or deployment claim is
 made by this record.
+
+### 2026-11-22 — Codex: email Worker deployment parity review
+
+On the project owner's Phase 2 handoff, Codex read the deployed
+`gaabe-demo-email` Worker configuration and artifact without changing its
+secrets, DNS, or deployment. The live artifact implements the reviewed
+bounded request parsing, constant-time bearer-token check, idempotency-key
+forwarding, bilingual rendering, and safe Resend-error handling. Its public
+root returned the expected `404`; an unauthenticated `POST` to the internal
+route returned `401`, so no email was sent.
+
+The review found source configuration drift: the repository set
+`workers_dev: false` while the project-authorized demo Worker is intentionally
+available at a dedicated `workers.dev` URL. Codex's follow-up branch changes
+only that setting and deployment documentation, preventing a future normal
+Wrangler deployment from unintentionally removing the demo endpoint. The
+controlled authenticated welcome-email test remains pending because the
+service token is correctly not available to source control or chat.

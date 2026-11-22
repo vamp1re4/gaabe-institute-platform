@@ -3,7 +3,9 @@
   "name": "gaabe-demo-email",
   "main": "src/index.ts",
   "compatibility_date": "2026-11-22",
-  "workers_dev": false,
+  // The project owner approved this isolated demo endpoint. Keep the source
+  // configuration aligned with the existing gaabe-demo-email workers.dev URL.
+  "workers_dev": true,
   "upload_source_maps": true,
   "observability": {
     "enabled": true,
