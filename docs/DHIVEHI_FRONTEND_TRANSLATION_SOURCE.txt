@@ -1,9 +1,15 @@
-# Gaabe Institute — complete visible frontend English copy
-# Fill in only the Dhivehi column. Keep identifiers and placeholders unchanged.
-# Do not translate URLs, e-mail addresses, technical IDs, or answer-key identifiers.
+# GAABE INSTITUTE — DHIVEHI TRANSLATION WORKBOOK
+#
+# Fill in the blank third column only. Keep the identifier and English source unchanged.
+# Preserve placeholders such as {n}, {total}, {name}, {score}, and {max} exactly.
+# Do not translate URLs, e-mail addresses, technical IDs, or answer-key IDs.
 
-[shared_interface_catalogue]
-# identifier	English source	Dhivehi translation
+# ================================================================
+# A. CLIENT INTERFACE — REQUIRED
+# ================================================================
+# identifier	English source	Your Dhivehi translation
+
+## 1. Brand, navigation and shared actions
 brand.name	Gaabe Institute	
 brand.tagline	Islamic studies tuition, taught with care	
 nav.home	Home	
@@ -43,6 +49,8 @@ common.back	Back
 common.demo	Demonstration data	
 common.demoNotice	Demonstration data — sample content and prices are placeholders, not real courses or fees. No backend is connected.	
 common.dhivehiDraftNotice	Dhivehi interface text is an unreviewed draft awaiting review by a fluent Dhivehi speaker. Untranslated text appears in English.	
+
+## 2. Home and course catalogue
 home.hero.title	Learn Islamic studies with a teacher you can trust	
 home.hero.subtitle	Structured lessons, interactive worksheets and guided revision for students in the Maldives.	
 home.hero.cta	Browse courses	
@@ -66,6 +74,8 @@ courses.modules	Modules
 courses.enrol	Enrol	
 courses.premiumLocked	Premium lesson — subscribe to unlock	
 courses.notFound	Course not found	
+
+## 3. Lessons and Read Aloud
 lesson.markComplete	Mark as complete	
 lesson.completed	Completed	
 lesson.notes	Teacher notes	
@@ -91,6 +101,8 @@ speech.unavailable.teacher	No teacher recording has been uploaded for this secti
 speech.error	Playback failed. Please try again.	
 speech.nowReading	Now reading	
 speech.demoAudio	Placeholder tone for testing the audio player — this is not a recording of Gaabe Sir.	
+
+## 4. Worksheets, exams and presentations
 worksheet.title	Worksheets	
 worksheet.question	Question {n} of {total}	
 worksheet.points	{n} points	
@@ -125,6 +137,8 @@ presentation.thumbnails	Slide thumbnails
 presentation.noDownload	Viewing only. This demo renders hand-written sample slides; real PowerPoint conversion needs the server pipeline.	
 presentation.readSlide	Read this slide	
 presentation.readAll	Read all slides	
+
+## 5. Documents, pricing, accounts and dashboard
 document.title	Study documents	
 document.paragraphN	Paragraph {n}	
 document.readParagraph	Read this paragraph	
@@ -154,6 +168,8 @@ dashboard.recent	Recent activity
 dashboard.nothing	Nothing here yet.	
 dashboard.subscription	Subscription	
 dashboard.noSubscription	No active subscription	
+
+## 6. Error states and shared admin navigation
 error.title	Something went wrong	
 error.body	An unexpected error occurred. You can reload the page.	
 error.reload	Reload	
@@ -171,8 +187,10 @@ admin.nav.subscriptions	Subscriptions
 admin.nav.publishing	Publishing	
 admin.mockNotice	Mock data: nothing on this screen is saved to a server. Authentication and permissions are not enforced yet.	
 
-[client_hard_coded_visible_copy]
-# identifier	English source	Dhivehi translation
+# ================================================================
+# B. CLIENT PAGE TITLES, ACCESSIBILITY LABELS AND METADATA — REQUIRED
+# ================================================================
+# identifier	English source	Your Dhivehi translation
 client.visible.001	Islamic studies tuition	
 client.visible.002	Structured Islamic studies lessons, guided revision and worksheets for students in the Maldives.	
 client.visible.003	Browse Gaabe Institute demonstration courses.	
@@ -202,8 +220,10 @@ client.visible.026	system
 client.visible.027	Primary	
 client.visible.028	Mobile	
 
-[admin_visible_copy]
-# identifier	English source	Dhivehi translation
+# ================================================================
+# C. ADMIN WEBSITE — REQUIRED
+# ================================================================
+# identifier	English source	Your Dhivehi translation
 admin.visible.001	Administration screens are English-only for now. Dhivehi admin text has not been written or reviewed.	
 admin.visible.002	Demonstration overview	
 admin.visible.003	Sample students	
@@ -251,96 +271,113 @@ admin.visible.044	Server-verified payment state machine with idempotency and aud
 admin.visible.045	Manual-transfer review that remains pending until authorized staff verify evidence.	
 admin.visible.046	Short-lived, entitlement-checked access for premium lessons, media, documents, and audio.	
 
-[fictional_demo_content_visible_in_the_frontend]
-# Translate all of this if the demo must contain no visible English. These are placeholders, not approved teaching material.
-# identifier	English source	Dhivehi translation
-demo.visible.001	Beginner	
-demo.visible.002	A second paragraph lets you try the previous and next controls. Each sentence is read separately so the current sentence can be followed.	
-demo.visible.003	Sample Course A — Foundations	
-demo.visible.004	Placeholder beginner course showing how modules and lessons are laid out.	
-demo.visible.005	Module 1 (sample)	
-demo.visible.006	Module 2 (sample)	
-demo.visible.007	Sample Course B — Guided Practice	
-demo.visible.008	Placeholder intermediate course with premium lessons to demonstrate locked content.	
-demo.visible.009	Intermediate	
-demo.visible.010	Sample Course C — Revision	
-demo.visible.011	Placeholder revision course used by the exam preparation screens.	
-demo.visible.012	Advanced	
-demo.visible.013	Sample Course D — Unpublished draft	
-demo.visible.014	Draft course visible only in the admin app.	
-demo.visible.015	Sample worksheet (demonstration)	
-demo.visible.016	Demonstration questions covering every question type. They are neutral general-knowledge items, not course material.	
-demo.visible.017	How many days are there in a week?	
-demo.visible.018	Five	
-demo.visible.019	Seven	
-demo.visible.020	Ten	
-demo.visible.021	A week has seven days.	
-demo.visible.022	Select all the even numbers.	
-demo.visible.023	2 and 8 are divisible by two.	
-demo.visible.024	The Maldives is made up of coral atolls.	
-demo.visible.025	The Maldives is an archipelago of atolls in the Indian Ocean.	
-demo.visible.026	Type the number that comes after six, as a word.	
-demo.visible.027	Seven (7).	
-demo.visible.028	Match each item with its colour.	
-demo.visible.029	Grass	
-demo.visible.030	Sky	
-demo.visible.031	Snow	
-demo.visible.032	Green	
-demo.visible.033	Blue	
-demo.visible.034	White	
-demo.visible.035	Put these numbers in ascending order using the arrows.	
-demo.visible.036	In a few sentences, describe your favourite place to study.	
-demo.visible.037	Practice paper (demonstration)	
-demo.visible.038	A short objective-only practice paper using neutral placeholder questions.	
-demo.visible.039	Which of these is a prime number?	
-demo.visible.040	Zero is an even number.	
-demo.visible.041	What is 6 multiplied by 7?	
-demo.visible.042	Re-read your lesson notes	
-demo.visible.043	Complete the practice paper without notes	
-demo.visible.044	Review the questions you got wrong	
-demo.visible.045	Ask your teacher about anything unclear	
-demo.visible.046	Sample presentation (demonstration)	
-demo.visible.047	Welcome	
-demo.visible.048	Navigation	
-demo.visible.049	Read Aloud	
-demo.visible.050	Unverified one-word Thaana sample for RTL testing.	
-demo.visible.051	Unpublished sample deck	
-demo.visible.052	Draft	
-demo.visible.053	Sample study document (demonstration)	
-demo.visible.054	This structured sample stands in for a converted PDF. Each paragraph can be read aloud separately.	
-demo.visible.055	Real PDFs need a server-side pipeline for text extraction, page images and access control. That pipeline is not built yet.	
-demo.visible.056	Free sample	
-demo.visible.057	Monthly (placeholder)	
-demo.visible.058	Term (placeholder)	
-demo.visible.059	Demo Student 01	
-demo.visible.060	Demo Student 02	
-demo.visible.061	Demo Student 03	
-demo.visible.062	Demo Student 04	
-demo.visible.063	This is placeholder lesson text used to test layout and Read Aloud. Replace it with material written or approved by Gaabe Sir. It is not real course content.	
-demo.visible.064	Sample lesson 1	
-demo.visible.065	Sample lesson 2	
-demo.visible.066	Sample lesson 3	
-demo.visible.067	Sample premium lesson 2	
-demo.visible.068	seven	
-demo.visible.069	forty-two	
-demo.visible.070	forty two	
-demo.visible.071	Placeholder slide one	
-demo.visible.072	Slides are hand-written demo data	
-demo.visible.073	Use the arrow keys or buttons	
-demo.visible.074	Open the thumbnails to jump	
-demo.visible.075	Try full screen	
-demo.visible.076	English uses your browser voice	
-demo.visible.077	Dhivehi shows an honest unavailable message	
-demo.visible.078	Not published	
-demo.visible.079	Free lessons	
-demo.visible.080	Sample worksheet	
-demo.visible.081	All premium lessons	
-demo.visible.082	All worksheets	
-demo.visible.083	Exam practice	
-demo.visible.084	Everything in Monthly	
-demo.visible.085	Presentations & documents	
+# ================================================================
+# D. VISIBLE DEMO CONTENT — REQUIRED FOR A FULLY DHIVEHI DEMO
+# These are fictional placeholders, not approved teaching material.
+# ================================================================
+# identifier	English source	Your Dhivehi translation
 
-[generated_demo_pdf]
+## Courses, modules and lessons
+demo.course.001	Beginner	
+demo.course.002	A second paragraph lets you try the previous and next controls. Each sentence is read separately so the current sentence can be followed.	
+demo.course.003	Sample Course A — Foundations	
+demo.course.004	Placeholder beginner course showing how modules and lessons are laid out.	
+demo.course.005	Module 1 (sample)	
+demo.course.006	Module 2 (sample)	
+demo.course.007	Sample Course B — Guided Practice	
+demo.course.008	Placeholder intermediate course with premium lessons to demonstrate locked content.	
+demo.course.009	Intermediate	
+demo.course.010	Sample Course C — Revision	
+demo.course.011	Placeholder revision course used by the exam preparation screens.	
+demo.course.012	Advanced	
+demo.course.013	Sample Course D — Unpublished draft	
+demo.course.014	Draft course visible only in the admin app.	
+
+## Worksheets and exam practice
+demo.worksheet.001	Sample worksheet (demonstration)	
+demo.worksheet.002	Demonstration questions covering every question type. They are neutral general-knowledge items, not course material.	
+demo.worksheet.003	How many days are there in a week?	
+demo.worksheet.004	Five	
+demo.worksheet.005	Seven	
+demo.worksheet.006	Ten	
+demo.worksheet.007	A week has seven days.	
+demo.worksheet.008	Select all the even numbers.	
+demo.worksheet.009	2 and 8 are divisible by two.	
+demo.worksheet.010	The Maldives is made up of coral atolls.	
+demo.worksheet.011	The Maldives is an archipelago of atolls in the Indian Ocean.	
+demo.worksheet.012	Type the number that comes after six, as a word.	
+demo.worksheet.013	Seven (7).	
+demo.worksheet.014	Match each item with its colour.	
+demo.worksheet.015	Grass	
+demo.worksheet.016	Sky	
+demo.worksheet.017	Snow	
+demo.worksheet.018	Green	
+demo.worksheet.019	Blue	
+demo.worksheet.020	White	
+demo.worksheet.021	Put these numbers in ascending order using the arrows.	
+demo.worksheet.022	In a few sentences, describe your favourite place to study.	
+demo.worksheet.023	Practice paper (demonstration)	
+demo.worksheet.024	A short objective-only practice paper using neutral placeholder questions.	
+demo.worksheet.025	Which of these is a prime number?	
+demo.worksheet.026	Zero is an even number.	
+demo.worksheet.027	What is 6 multiplied by 7?	
+demo.worksheet.028	Re-read your lesson notes	
+demo.worksheet.029	Complete the practice paper without notes	
+demo.worksheet.030	Review the questions you got wrong	
+demo.worksheet.031	Ask your teacher about anything unclear	
+
+## Presentations
+demo.presentation.001	Sample presentation (demonstration)	
+demo.presentation.002	Welcome	
+demo.presentation.003	Navigation	
+demo.presentation.004	Read Aloud	
+demo.presentation.005	Unverified one-word Thaana sample for RTL testing.	
+demo.presentation.006	Unpublished sample deck	
+demo.presentation.007	Draft	
+
+## Documents
+demo.document.001	Sample study document (demonstration)	
+demo.document.002	This structured sample stands in for a converted PDF. Each paragraph can be read aloud separately.	
+demo.document.003	Real PDFs need a server-side pipeline for text extraction, page images and access control. That pipeline is not built yet.	
+
+## Plans and plan features
+demo.plan.001	Free sample	
+demo.plan.002	Monthly (placeholder)	
+demo.plan.003	Term (placeholder)	
+
+## Fictional students and remaining sample content
+demo.other.001	Demo Student 01	
+demo.other.002	Demo Student 02	
+demo.other.003	Demo Student 03	
+demo.other.004	Demo Student 04	
+demo.other.005	This is placeholder lesson text used to test layout and Read Aloud. Replace it with material written or approved by Gaabe Sir. It is not real course content.	
+demo.other.006	Sample lesson 1	
+demo.other.007	Sample lesson 2	
+demo.other.008	Sample lesson 3	
+demo.other.009	Sample premium lesson 2	
+demo.other.010	seven	
+demo.other.011	forty-two	
+demo.other.012	forty two	
+demo.other.013	Placeholder slide one	
+demo.other.014	Slides are hand-written demo data	
+demo.other.015	Use the arrow keys or buttons	
+demo.other.016	Open the thumbnails to jump	
+demo.other.017	Try full screen	
+demo.other.018	English uses your browser voice	
+demo.other.019	Dhivehi shows an honest unavailable message	
+demo.other.020	Not published	
+demo.other.021	Free lessons	
+demo.other.022	Sample worksheet	
+demo.other.023	All premium lessons	
+demo.other.024	All worksheets	
+demo.other.025	Exam practice	
+demo.other.026	Everything in Monthly	
+demo.other.027	Presentations & documents	
+
+# ================================================================
+# E. GENERATED SAMPLE PDF — REQUIRED
+# ================================================================
+# identifier	English source	Your Dhivehi translation
 pdf.visible.001	Gaabe Institute - DEMO PDF	
 pdf.visible.002	This generated sample is not course material.	
 pdf.visible.003	It only proves that PDF viewing works in the browser.	

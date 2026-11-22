@@ -66,29 +66,70 @@ const [messages, demo] = await Promise.all([
   read('packages/demo-data/src/index.ts'),
 ]);
 
+const rows = (prefix, values) => values.map((value, index) =>
+  `${prefix}.${String(index + 1).padStart(3, '0')}\t${escape(value)}\t`,
+);
+const catalogue = catalogueEntries(messages);
+const catalogueSections = [
+  ['1. Brand, navigation and shared actions', /^(brand|nav|common)\./],
+  ['2. Home and course catalogue', /^(home|courses)\./],
+  ['3. Lessons and Read Aloud', /^(lesson|speech)\./],
+  ['4. Worksheets, exams and presentations', /^(worksheet|exam|presentation)\./],
+  ['5. Documents, pricing, accounts and dashboard', /^(document|pricing|auth|dashboard)\./],
+  ['6. Error states and shared admin navigation', /^(error|admin)\./],
+];
+const demoValues = quotedContent(demo);
+const splitAt = (marker) => demoValues.indexOf(marker);
+const worksheetStart = splitAt('Sample worksheet (demonstration)');
+const presentationStart = splitAt('Sample presentation (demonstration)');
+const documentStart = splitAt('Sample study document (demonstration)');
+const planStart = splitAt('Free sample');
+const studentStart = splitAt('Demo Student 01');
+
 const lines = [
-  '# Gaabe Institute — complete visible frontend English copy',
-  '# Fill in only the Dhivehi column. Keep identifiers and placeholders unchanged.',
-  '# Do not translate URLs, e-mail addresses, technical IDs, or answer-key identifiers.',
+  '# GAABE INSTITUTE — DHIVEHI TRANSLATION WORKBOOK',
+  '#',
+  '# Fill in the blank third column only. Keep the identifier and English source unchanged.',
+  '# Preserve placeholders such as {n}, {total}, {name}, {score}, and {max} exactly.',
+  '# Do not translate URLs, e-mail addresses, technical IDs, or answer-key IDs.',
   '',
-  '[shared_interface_catalogue]',
-  '# identifier\tEnglish source\tDhivehi translation',
-  ...catalogueEntries(messages).map(([key, value]) => `${key}\t${escape(value)}\t`),
+  '# ================================================================',
+  '# A. CLIENT INTERFACE — REQUIRED',
+  '# ================================================================',
+  '# identifier\tEnglish source\tYour Dhivehi translation',
+  ...catalogueSections.flatMap(([title, pattern]) => [
+    '', `## ${title}`,
+    ...catalogue.filter(([key]) => pattern.test(key)).map(([key, value]) => `${key}\t${escape(value)}\t`),
+  ]),
   '',
-  '[client_hard_coded_visible_copy]',
-  '# identifier\tEnglish source\tDhivehi translation',
-  ...clientVisible.map((value, index) => `client.visible.${String(index + 1).padStart(3, '0')}\t${escape(value)}\t`),
+  '# ================================================================',
+  '# B. CLIENT PAGE TITLES, ACCESSIBILITY LABELS AND METADATA — REQUIRED',
+  '# ================================================================',
+  '# identifier\tEnglish source\tYour Dhivehi translation',
+  ...rows('client.visible', clientVisible),
   '',
-  '[admin_visible_copy]',
-  '# identifier\tEnglish source\tDhivehi translation',
-  ...adminVisible.map((value, index) => `admin.visible.${String(index + 1).padStart(3, '0')}\t${escape(value)}\t`),
+  '# ================================================================',
+  '# C. ADMIN WEBSITE — REQUIRED',
+  '# ================================================================',
+  '# identifier\tEnglish source\tYour Dhivehi translation',
+  ...rows('admin.visible', adminVisible),
   '',
-  '[fictional_demo_content_visible_in_the_frontend]',
-  '# Translate all of this if the demo must contain no visible English. These are placeholders, not approved teaching material.',
-  '# identifier\tEnglish source\tDhivehi translation',
-  ...quotedContent(demo).map((value, index) => `demo.visible.${String(index + 1).padStart(3, '0')}\t${escape(value)}\t`),
+  '# ================================================================',
+  '# D. VISIBLE DEMO CONTENT — REQUIRED FOR A FULLY DHIVEHI DEMO',
+  '# These are fictional placeholders, not approved teaching material.',
+  '# ================================================================',
+  '# identifier\tEnglish source\tYour Dhivehi translation',
+  '', '## Courses, modules and lessons', ...rows('demo.course', demoValues.slice(0, worksheetStart)),
+  '', '## Worksheets and exam practice', ...rows('demo.worksheet', demoValues.slice(worksheetStart, presentationStart)),
+  '', '## Presentations', ...rows('demo.presentation', demoValues.slice(presentationStart, documentStart)),
+  '', '## Documents', ...rows('demo.document', demoValues.slice(documentStart, planStart)),
+  '', '## Plans and plan features', ...rows('demo.plan', demoValues.slice(planStart, studentStart)),
+  '', '## Fictional students and remaining sample content', ...rows('demo.other', demoValues.slice(studentStart)),
   '',
-  '[generated_demo_pdf]',
+  '# ================================================================',
+  '# E. GENERATED SAMPLE PDF — REQUIRED',
+  '# ================================================================',
+  '# identifier\tEnglish source\tYour Dhivehi translation',
   'pdf.visible.001\tGaabe Institute - DEMO PDF\t',
   'pdf.visible.002\tThis generated sample is not course material.\t',
   'pdf.visible.003\tIt only proves that PDF viewing works in the browser.\t',
