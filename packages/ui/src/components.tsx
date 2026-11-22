@@ -68,9 +68,9 @@ export function Notice({ tone = 'info', children }: { tone?: 'info' | 'error' | 
 /** Persistent banner that labels fictional content as demonstration data. */
 export function DemoBanner({ messageKey = 'common.demoNotice' }: { messageKey?: MessageKey }) {
   return (
-    <div className="demo-banner" role="note">
+    <aside className="demo-banner" aria-label="Demonstration data notice">
       <T k={messageKey} />
-    </div>
+    </aside>
   );
 }
 

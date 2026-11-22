@@ -52,7 +52,7 @@ export function Courses() {
               <Badge tone={c.free ? 'default' : 'gold'}>{c.free ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
               <Badge tone="muted"><Lang>{c.level}</Lang></Badge>
             </div>
-            <h3><Lang>{c.title}</Lang></h3>
+            <h2><Lang>{c.title}</Lang></h2>
             <p className="muted"><Lang>{c.summary}</Lang></p>
             <p className="muted" style={{ margin: 0 }}>
               {c.modules.reduce((n, m) => n + m.lessons.length, 0)} <T k="common.lessons" />

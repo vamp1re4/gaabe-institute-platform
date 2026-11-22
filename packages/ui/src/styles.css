@@ -702,3 +702,8 @@ th {
     display: inline-flex !important;
   }
 }
+
+/* Card titles are semantic h2/h3 but keep card-scale type. */
+.card-link h2 {
+  font-size: 1.15rem;
+}

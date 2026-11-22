@@ -31,7 +31,7 @@ export function Worksheets() {
       <div className="grid">
         {worksheets.map((w) => (
           <Link key={w.id} to={`/worksheets/${w.id}`} className="card card-link">
-            <h3><Lang>{w.title}</Lang></h3>
+            <h2><Lang>{w.title}</Lang></h2>
             <p className="muted">
               <T k="worksheet.questionCount" vars={{ n: w.questions.length }} />
             </p>
