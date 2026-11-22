@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "gaabe-demo-email",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-22",
+  "workers_dev": false,
+  "upload_source_maps": true,
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  },
+  "vars": {
+    "EMAIL_FROM": "Gaabe Institute <noreply@mail.techtasks.store>"
+  }
+}
