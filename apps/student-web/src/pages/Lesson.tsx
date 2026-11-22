@@ -17,7 +17,7 @@ function Block({ block, reading }: { block: ContentBlock; reading: boolean }) {
         className={reading ? 'reading-now' : undefined}
         style={{ fontSize: '1.1rem' }}
       >
-        {block.text}
+        <Lang code={block.lang}>{block.text}</Lang>
       </p>
       {block.unverified && (
         <Badge tone="muted">

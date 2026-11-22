@@ -15,9 +15,12 @@ import { LOCALES, T, useI18n, type Locale, type MessageKey } from '@gaabe/i18n';
  * their language; never infer it from the text.
  */
 export function Lang({ code = 'en', children }: { code?: 'en' | 'dv' | 'ar'; children: ReactNode }) {
+  const { locale, c } = useI18n();
+  const translated = code === 'en' && locale === 'dv' && typeof children === 'string' ? c(children) : children;
+  const outputCode = code === 'en' && locale === 'dv' && translated !== children ? 'dv' : code;
   return (
-    <bdi lang={code} dir={code === 'en' ? 'ltr' : 'rtl'}>
-      {children}
+    <bdi lang={outputCode} dir={outputCode === 'en' ? 'ltr' : 'rtl'}>
+      {translated}
     </bdi>
   );
 }
