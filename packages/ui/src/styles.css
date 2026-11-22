@@ -83,6 +83,8 @@
   --danger: #ff8d80;
   --success: #6fd6a2;
   --warning: #f0bf6b;
+  --glass-frost: rgb(23 38 79 / 0.62);
+  --glass-border: rgb(59 77 117 / 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
