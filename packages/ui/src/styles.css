@@ -686,3 +686,19 @@ th {
   flex-wrap: nowrap;
   gap: 4px;
 }
+
+/* Sidebar navigation mode (admin): header nav hidden on wide screens, menu button hidden once the sidebar shows. */
+.site-header[data-nav='sidebar'] .nav-links {
+  display: none !important;
+}
+@media (min-width: 62rem) {
+  .site-header[data-nav='sidebar'] .menu-button,
+  .site-header[data-nav='sidebar'] .mobile-menu {
+    display: none !important;
+  }
+}
+@media (max-width: 61.99rem) {
+  .site-header[data-nav='sidebar'] .menu-button {
+    display: inline-flex !important;
+  }
+}

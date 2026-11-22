@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { T, useI18n } from '@gaabe/i18n';
-import { Button, Lang, Notice } from '@gaabe/ui';
+import { Button, Lang, Notice, useStored } from '@gaabe/ui';
 import { findWorksheet, revisionChecklist } from '@gaabe/demo-data';
 import { WorksheetPlayer } from '@gaabe/worksheets';
-import { KEYS, useStored } from '../state';
+import { KEYS } from '../state';
 
 const PRACTICE_SECONDS = 5 * 60;
 

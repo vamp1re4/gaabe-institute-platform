@@ -179,9 +179,11 @@ export interface ShellProps {
   tools?: ReactNode;
   children: ReactNode;
   demoBanner?: ReactNode;
+  /** 'sidebar': nav lives in a sidebar rendered by the app on wide screens; the header only shows it in the menu on narrow ones. */
+  navMode?: 'top' | 'sidebar';
 }
 
-export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, children, demoBanner }: ShellProps) {
+export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, children, demoBanner, navMode = 'top' }: ShellProps) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   // Controls render exactly once: in the header on wide screens, inside the menu on narrow ones.
@@ -199,7 +201,7 @@ export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, child
         {t('nav.skipToContent')}
       </a>
       {demoBanner}
-      <header className="site-header">
+      <header className="site-header" data-nav={navMode}>
         <div className="container">
           <div className="bar">
             {homeLink(
