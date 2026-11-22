@@ -1,0 +1,106 @@
+﻿Website & App Production Checklist & Design Guide
+A consolidated checklist covering UI/UX polish, anti-vibe-coding quality standards, backend security and infrastructure, pre-launch SEO/compliance, and brand color palette.
+
+
+________________
+
+
+Section 1: UI & UX Polish Features ("Add These to My Website")
+* Dark mode toggle: Provide a seamless theme switcher respecting system preferences.
+* Simple cookie banner: Non-intrusive compliance banner with explicit consent controls.
+* Site search: Fast, accessible search functionality with real-time feedback or indexing.
+* Back to top button: Smooth-scrolling anchor trigger for lengthy pages.
+* Mobile menu: Responsive, touch-friendly navigation drawer or overlay.
+* Loading animations: Contextual skeleton screens or subtle spinners during dynamic data fetches.
+* Hover states: Clear visual affordances for all interactive elements and links.
+* Scroll progress bar: Subtle top-aligned bar indicating read depth on long-form content.
+* Copy button: One-click utility for code snippets, link sharing, or transactional details.
+* Print stylesheet: Optimized @media print CSS hiding non-essential UI elements.
+* Sticky header: Persistent top bar ensuring quick access to navigation items.
+* Skip to content link: Accessibility feature permitting keyboard users to bypass headers.
+* Password visibility toggle: Show/hide password option on form inputs to reduce auth errors.
+* UTM tracking: Automated preservation and parsing of campaign parameters across flows.
+* Form success state: Clear visual confirmation and inline messaging upon successful submit.
+* Form error state: Explicit inline field validation and supportive error messaging.
+* Confirmation modals: Explicit verification steps before performing destructive actions.
+* Last updated date: Clear timestamp visibility for dynamic or documentation-focused content.
+* Expandable FAQ: Accordion-style expandable components to optimize vertical space.
+* Floating contact button: Quick-access persistent trigger for support or sales inquiries.
+
+
+________________
+
+
+Section 2: Quality Assurance — 15 "Vibe-Coded" Pitfalls to Avoid
+* Avoid generic purple gradients: Opt for tailored, brand-aligned color schemes rather than generic template defaults.
+* Avoid excessive padding: Maintain tight, predictable spacing hierarchies without unneeded white space dead zones.
+* Ensure on-screen keyboards do not cover input fields: Implement viewport adjustments so focused inputs remain visible on mobile.
+* Ensure buttons are large enough for comfortable tapping: Adhere to minimum tap target sizes (at least 44x44px).
+* Implement proper data and asset caching: Utilize HTTP caching headers and service worker strategies effectively.
+* Ensure body and UI text is legible and not too small: Maintain high contrast and accessible base font sizing (minimum 16px for body).
+* Replace excessive loading spinners with skeleton screens or smoother states: Avoid jarring visual layout shifts during data hydration.
+* Avoid overusing emojis in professional UI copy: Keep interface copy clear, precise, and visually grounded.
+* Prevent double-submissions on double-taps/clicks: Debounce form inputs and disable submit actions immediately upon trigger.
+* Design proper empty/onboarding states: Never present zero-data blank screens to new users; provide actionable guidance.
+* Fix text scaling and dynamic font-size issues: Ensure typography scales gracefully across varied viewport dimensions.
+* Test and resolve dark/light mode contrast and styling issues: Validate theme transitions against strict WCAG contrast ratios.
+* Never expose raw error text or stack traces to users: Catch systemic exceptions and display sanitized, friendly notices.
+* Add subtle tap/active feedback animations: Provide micro-interactions to confirm user touch and click inputs.
+* Persist user preferences properly: Ensure configuration choices (e.g., local settings, theme) survive page reloads.
+
+
+________________
+
+
+Section 3: Backend Security, Infrastructure & Reliability
+* Access control: Verify user permissions on protected routes/resources (e.g., checking user.id against session.userId and returning 403 Forbidden).
+* Expiring reset links: Enforce strict expiration timers on password reset tokens.
+* Input sanitization: Use parameterized SQL queries (e.g., WHERE name = $1) and escape HTML/script inputs to prevent SQL injection and XSS.
+* Custom error pages: Provide user-friendly 404 (Page Not Found) and 503 (Service Unavailable / Back in a Minute) pages.
+* Rate limiting: Throttle API endpoints (e.g., /api/login capped at 100 requests/min, returning 429 Too Many Requests).
+* CORS configuration: Restrict Access-Control-Allow-Origin strictly to trusted domains.
+* Database indexes: Add indexes on frequently queried columns (e.g., user_id) to optimize query execution times.
+* Logs and alerts: Implement structured request logging and automated critical error alerts.
+* Rollback capability: Maintain versioned deployments (v1 / v2) with fast rollback mechanisms.
+
+
+________________
+
+
+Section 4: Pre-Launch SEO, Legal & Conversion Checklist ("Before You Launch")
+* 01. Custom 404 page: Friendly error handling directing users back to useful site areas.
+* 02. Unique title tag on every page: Distinct, keyword-optimized page titles.
+* 03. Meta description on every page: Concise page summaries designed for search engine snippets.
+* 04. Open Graph / social preview image when shared: Configured og:image tags for rich link previews across platforms.
+* 05. Alt text on every image: Descriptive text attributes for accessibility and image indexing.
+* 06. Internal links between pages: Interconnected content architecture to assist user navigation and crawler discovery.
+* 07. Sitemap submitted in Google Search Console: XML sitemap configured, verified, and indexed.
+* 08. robots.txt verified not to block the site: Public accessibility policies checked to ensure key routes are crawlable.
+* 09. HTTPS enforced everywhere: Transport Layer Security (TLS) active across all routes with strict HTTP redirect rules.
+* 10. Spam protection on forms: CAPTCHA, honeypots, or rate limiting configured on user submission inputs.
+* 11. Thank-you page after form submission: Clear conversion tracking destination post-action.
+* 12. Google Analytics installed and verified: Telemetry and conversion tracking verified live.
+* 13. Privacy policy published: Compliant terms and policy pages accessible from footer elements.
+* 14. FAQ section for visitors: Key visitor objections and operational questions addressed transparently.
+* 15. Only real, authentic testimonials: Verified social proof and customer feedback displayed without dummy text.
+
+
+________________
+
+
+Section 5: Brand Color Palette — "Cobalt Noir"
+Swatch / Role
+	Hex Code
+	Visual Description
+	Cool Slate / Muted Neutral
+	#B7C1CC
+	Soft cool grey-blue for secondary text, borders, or light surfaces
+	Primary Cobalt Blue
+	#315BCE
+	Vibrant royal/cobalt blue for primary CTAs, links, and brand highlights
+	Deep Midnight Navy
+	#17264F
+	Rich dark navy for elevated cards, headers, or dark-mode surfaces
+	Obsidian Noir
+	#111318
+	Deep charcoal-black for primary dark backgrounds and high-contrast text
