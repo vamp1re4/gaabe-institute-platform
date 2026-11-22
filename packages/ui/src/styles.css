@@ -5,6 +5,15 @@
 @import '@fontsource/noto-naskh-arabic/400.css';
 @import '@fontsource/noto-naskh-arabic/600.css';
 
+/* Owner-authorized Faruma Regular, bundled with the application for reliable offline delivery. */
+@font-face {
+  font-family: 'Faruma';
+  src: url('./assets/Faruma-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 /* ===== Design tokens: Cobalt Noir with restrained study accents ===== */
 :root {
   --emerald-900: #17264f;
@@ -61,7 +70,7 @@
   --glass-border: rgb(183 193 204 / 0.58);
 
   --font-latin: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-thaana: 'Noto Sans Thaana', 'MV Boli', 'Faruma', system-ui, sans-serif;
+  --font-thaana: 'Faruma', 'Noto Sans Thaana', sans-serif;
   --font-arabic: 'Noto Naskh Arabic', 'Amiri', 'Traditional Arabic', serif;
 }
 
@@ -128,12 +137,15 @@ body {
   line-height: 1.6;
   font-size: 1rem;
 }
-/* Thaana needs generous line height; set the font by document language, not by guessing text. */
+/* Thaana needs room for fili/diacritics. Keep it language-scoped so English remains Inter. */
 :root:lang(dv),
 :lang(dv) {
   font-family: var(--font-thaana);
-  line-height: 1.75;
-  letter-spacing: 0;
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: normal;
+  font-synthesis: none;
 }
 :lang(ar) {
   font-family: var(--font-arabic);
@@ -165,7 +177,18 @@ h3 {
 :lang(dv) h1,
 :lang(dv) h2,
 :lang(dv) h3 {
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.75;
+}
+:lang(dv) .btn,
+:lang(dv) .badge,
+:lang(dv) input,
+:lang(dv) textarea,
+:lang(dv) select,
+:lang(dv) strong,
+:lang(dv) b {
+  font-weight: 400;
+  letter-spacing: normal;
 }
 h1 {
   font-size: clamp(1.7rem, 4vw, 2.6rem);
