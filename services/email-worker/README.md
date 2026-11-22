@@ -1,8 +1,10 @@
 # Gaabe Institute email Worker
 
 This internal Worker delivers approved transactional messages through Resend.
-It is intentionally not deployed, has no public route, and never accepts calls
-from the student or admin browser.
+The isolated demo Worker is deployed at a `workers.dev` URL, but exposes only
+its authenticated internal endpoint; it never accepts calls from the student
+or admin browser. The public URL is intentionally retained in source
+configuration so a later Wrangler deployment does not disable it.
 
 ## What is implemented
 
@@ -13,7 +15,18 @@ from the student or admin browser.
 - English and draft Dhivehi welcome/class-reminder messages. Dhivehi must be
   reviewed by a fluent speaker before real sending.
 
-## Required approval before deployment
+## Deployment status and production approval
+
+The project owner approved a demo deployment with domain-restricted Resend and
+service-token secrets configured outside this repository. A non-authenticated
+probe may verify that the URL responds with `404` at `/` and `401` at this
+endpoint; neither probe sends an email.
+
+This is not production approval. Before a production rollout, rotate the demo
+credentials and replace the public bearer-token interface with authenticated
+Cloudflare service bindings or Cloudflare Access.
+
+## Required approval before changing credentials or deployment
 
 The owner must explicitly approve creation of a domain-restricted Resend API
 key, Worker secrets, an authenticated caller/service binding, and deployment.
