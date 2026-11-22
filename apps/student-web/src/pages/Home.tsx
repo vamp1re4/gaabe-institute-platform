@@ -44,7 +44,7 @@ export function Home() {
         </p>
         <div className="grid">
           {publishedCourses.slice(0, 3).map((c) => (
-            <Link key={c.id} to={`/courses/${c.id}`} className="card card-link">
+            <Link key={c.id} to={`/courses/${c.id}`} className="card glass-frosted card-link">
               <div className="row" style={{ marginBlockEnd: 8 }}>
                 <Badge tone={c.free ? 'default' : 'gold'}>{c.free ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
                 <Badge tone="muted"><Lang>{c.level}</Lang></Badge>
@@ -62,7 +62,7 @@ export function Home() {
         </h2>
         <div className="grid">
           {BENEFITS.map((b) => (
-            <div key={b.title} className="card">
+            <div key={b.title} className="card glass-frosted">
               <h3>
                 <T k={b.title} />
               </h3>
