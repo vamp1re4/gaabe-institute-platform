@@ -82,10 +82,10 @@ function AuthTools() {
 }
 
 export function App() {
-  const { pathname } = useLocation();
-  const marketingRoute = pathname === '/' || pathname === '/courses' || pathname === '/pricing';
+  // Lenis/GSAP is an enhancement, not a navigation dependency. Keep native
+  // scrolling while the public demo is being validated on mobile WebViews.
   return (
-    <MotionProvider enabled={marketingRoute}>
+    <MotionProvider enabled={false}>
       <SiteShell
         nav={NAV}
         demoBanner={<DemoBanner />}
