@@ -29,3 +29,21 @@ No sample users, courses, payments, credentials, or content are seeded.
 ## Current safety posture
 
 The deployed client/admin sites remain demonstrations until those steps are complete. Their existing demo records are not production student records, and no browser has access to privileged database, email, payment, or R2 credentials.
+## Stripe test-mode payment boundary
+
+The Stripe test catalog, webhook, and `gaabe-payments` Worker were provisioned
+outside the repository before the Worker source was synchronized here. The
+repository now contains the Worker implementation and the database migration
+for its isolated Stripe test ledger.
+
+- Price selection is server allowlisted: Standard and Premium only.
+- Checkout requires a Firebase identity validated by Supabase.
+- The Worker only accepts signed Stripe test-mode webhooks and processes the
+  ledger atomically with event-ID deduplication.
+- Browser redirects never grant access.
+- Test subscriptions are kept separate from `public.entitlements`.
+
+The service is not deployable until `SUPABASE_SERVICE_ROLE_KEY` is stored as an
+encrypted `gaabe-payments` Worker secret. It remains test-only; no live-mode
+payments or real access grants are implemented.
+

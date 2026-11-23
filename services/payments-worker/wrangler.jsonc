@@ -1,0 +1,18 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "gaabe-payments",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-23",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true, "logs": { "enabled": true, "head_sampling_rate": 1 }, "traces": { "enabled": true, "head_sampling_rate": 0.01 } },
+  "vars": {
+    "SUPABASE_URL": "https://amtooilfapfoocwcwqsk.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_qfbZVigtoCVriT178cbXIw_w4YwFqAh",
+    "ALLOWED_ORIGIN": "https://clientdemo.techtasks.store",
+    "CHECKOUT_SUCCESS_URL": "https://clientdemo.techtasks.store/payment/success?session_id={CHECKOUT_SESSION_ID}",
+    "CHECKOUT_CANCEL_URL": "https://clientdemo.techtasks.store/pricing",
+    "STRIPE_STANDARD_PRICE_ID": "price_1Uem1rDmD2Dp4ykk7WY4HqBt",
+    "STRIPE_PREMIUM_PRICE_ID": "price_1Uem1tDmD2Dp4ykkOLudPuKZ"
+  }
+}

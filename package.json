@@ -12,12 +12,13 @@
     "dev:student": "npm run dev -w @gaabe/student-web",
     "dev:admin": "npm run dev -w @gaabe/admin-web",
     "typecheck:email": "wrangler types services/email-worker/worker-configuration.d.ts --config services/email-worker/wrangler.jsonc && tsc --noEmit -p tsconfig.json",
+    "typecheck:payments": "wrangler types services/payments-worker/worker-configuration.d.ts --config services/payments-worker/wrangler.jsonc && tsc --noEmit -p tsconfig.json",
     "build": "npm run build -w @gaabe/student-web && npm run build -w @gaabe/admin-web",
     "deploy:demo:student": "npm run build -w @gaabe/student-web && wrangler deploy --config apps/student-web/wrangler.jsonc --old-asset-ttl 86400",
     "deploy:demo:admin": "npm run build -w @gaabe/admin-web && wrangler deploy --config apps/admin-web/wrangler.jsonc --old-asset-ttl 86400",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "verify": "npm run typecheck:email && npm run test && npm run build"
+    "verify": "npm run typecheck:email && npm run typecheck:payments && npm run test && npm run build"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.3",
