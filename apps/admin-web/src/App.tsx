@@ -3,6 +3,7 @@ import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { T, useI18n } from '@gaabe/i18n';
 import { Badge, DemoBanner, Lang, Notice, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
 import { courses, students, worksheets } from '@gaabe/demo-data';
+import { ProductionCourses } from './pages/ProductionCourses';
 
 const NAV: NavItem[] = [
   { to: '/', labelKey: 'admin.nav.dashboard' },
@@ -77,6 +78,7 @@ function Students() {
 }
 
 function Courses() {
+  if (import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) return <Page title={<T k="admin.nav.courses" />}><ProductionCourses /></Page>;
   const [showDrafts, setShowDrafts] = useState(true);
   const visible = useMemo(() => courses.filter((course) => showDrafts || course.status === 'published'), [showDrafts]);
   return (
