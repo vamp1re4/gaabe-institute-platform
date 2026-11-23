@@ -249,7 +249,6 @@ set search_path = ''
 as $$
   select (auth.jwt() ->> 'iss') = 'https://securetoken.google.com/gaabe-institute-auth'
      and (auth.jwt() ->> 'aud') = 'gaabe-institute-auth'
-     and (auth.jwt() ->> 'role') = 'authenticated'
 $$;
 
 create function public.is_course_visible(target_course_id uuid)
@@ -395,5 +394,31 @@ grant select on public.profiles, public.organization_members, public.guardian_co
 grant insert, update (display_name, preferred_locale) on public.profiles to authenticated;
 grant insert, update on public.lesson_progress, public.worksheet_attempts, public.worksheet_responses to authenticated;
 grant update (status, read_at) on public.notifications to authenticated;
+
+-- Firebase tokens without a custom role claim run as Supabase's anon role.
+-- These grants are safe because every affected table has a restrictive policy
+-- which accepts only tokens issued for the dedicated Firebase project.
+grant select on public.profiles, public.organization_members, public.guardian_consents, public.enrollments, public.lesson_progress, public.worksheets, public.worksheet_questions, public.worksheet_attempts, public.worksheet_responses, public.plans, public.entitlements, public.notifications to anon;
+grant insert, update (display_name, preferred_locale) on public.profiles to anon;
+grant insert, update on public.lesson_progress, public.worksheet_attempts, public.worksheet_responses to anon;
+grant update (status, read_at) on public.notifications to anon;
+
+do $$
+declare
+  policy_record record;
+begin
+  -- Promote policies intended for signed-in application users to both roles.
+  -- The restrictive Firebase issuer/audience policy still denies unauthenticated
+  -- requests and Firebase tokens from any other project.
+  for policy_record in
+    select tablename, policyname
+    from pg_policies
+    where schemaname = 'public'
+      and roles = array['authenticated']::name[]
+  loop
+    execute format('alter policy %I on public.%I to anon, authenticated', policy_record.policyname, policy_record.tablename);
+  end loop;
+end;
+$$;
 
 alter publication supabase_realtime add table public.enrollments, public.lesson_progress, public.worksheet_attempts, public.notifications;
