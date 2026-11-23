@@ -11,6 +11,8 @@ const configured = Boolean(
 const clients = configured ? createProductionClients(publicBackendConfig(import.meta.env)) : null;
 
 export const productionAuthEnabled = configured;
+export const paymentsUrl = import.meta.env.VITE_PAYMENTS_URL as string | undefined;
+export const productionPaymentsEnabled = Boolean(configured && paymentsUrl);
 
 async function persistProfile(user: User, displayName?: string) {
   if (!clients) return;
@@ -46,4 +48,22 @@ export async function registerProduction(name: string, email: string, password: 
 
 export async function signOutProduction() {
   if (clients) await signOut(clients.auth);
+}
+
+/** Starts Stripe-hosted test Checkout. The browser never receives Stripe secrets. */
+export async function startTestCheckout(plan: 'standard' | 'premium') {
+  if (!clients || !paymentsUrl || !clients.auth.currentUser) throw new Error('Sign in before selecting a plan.');
+  const token = await clients.auth.currentUser.getIdToken();
+  const response = await fetch(`${paymentsUrl}/v1/checkout`, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+      'idempotency-key': `checkout-${crypto.randomUUID()}`,
+    },
+    body: JSON.stringify({ plan }),
+  });
+  const body = await response.json().catch(() => null) as { checkoutUrl?: unknown } | null;
+  if (!response.ok || typeof body?.checkoutUrl !== 'string') throw new Error('Checkout could not be started. Please try again.');
+  window.location.assign(body.checkoutUrl);
 }
