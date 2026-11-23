@@ -23,7 +23,7 @@ describe('payments worker', () => {
   it('does not present a configured service as ready without its database secret', async () => {
     const worker = createPaymentWorker();
     const response = await worker.fetch(new Request('https://payments.example.test/health'), { ...env, SUPABASE_SERVICE_ROLE_KEY: '' });
-    expect(await response.json()).toEqual({ service: 'gaabe-payments', mode: 'test', ready: false });
+    expect(await response.json()).toEqual({ service: 'gaabe-payments', mode: 'test', ready: false, configuration: { stripeTestKey: true, stripeWebhookSecret: true, supabaseServiceRole: false } });
   });
 
   it('rejects arbitrary plans before it calls either provider', async () => {

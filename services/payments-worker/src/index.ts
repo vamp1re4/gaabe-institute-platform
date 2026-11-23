@@ -201,8 +201,13 @@ export function createPaymentWorker(fetcher: typeof fetch = fetch) {
   return {
     async fetch(request: Request, env: PaymentWorkerEnv): Promise<Response> {
       const url = new URL(request.url);
-      const ready = Boolean(env.STRIPE_SECRET_KEY?.startsWith('rk_test_') && env.STRIPE_WEBHOOK_SECRET && env.SUPABASE_URL && env.SUPABASE_PUBLISHABLE_KEY && env.SUPABASE_SERVICE_ROLE_KEY);
-      if (url.pathname === '/health') return json({ service: 'gaabe-payments', mode: 'test', ready });
+      const configuration = {
+        stripeTestKey: Boolean(env.STRIPE_SECRET_KEY?.startsWith('rk_test_')),
+        stripeWebhookSecret: Boolean(env.STRIPE_WEBHOOK_SECRET),
+        supabaseServiceRole: Boolean(env.SUPABASE_SERVICE_ROLE_KEY),
+      };
+      const ready = configuration.stripeTestKey && configuration.stripeWebhookSecret && configuration.supabaseServiceRole && Boolean(env.SUPABASE_URL && env.SUPABASE_PUBLISHABLE_KEY);
+      if (url.pathname === '/health') return json({ service: 'gaabe-payments', mode: 'test', ready, configuration });
       if (!ready) return json({ error: 'not_configured' }, 503);
       if (url.pathname === '/webhook/stripe') return request.method === 'POST' ? processWebhook(fetcher, env, request) : json({ error: 'method_not_allowed' }, 405);
       const requestCors = cors(request, env);
