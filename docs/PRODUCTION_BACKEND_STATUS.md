@@ -8,6 +8,7 @@
 - Firebase email/password authentication: enabled
 - Resend sending domain and dedicated Worker: provisioned previously
 - Private R2 bucket: `gaabe-institute-assets` (no public access configured)
+- Student authentication/profile integration: deployed to `clientdemo.techtasks.store` and verified with a disposable create/read/delete test
 
 ## Database contract
 
@@ -19,8 +20,8 @@ No sample users, courses, payments, credentials, or content are seeded.
 
 1. Add Firebase as a **Third-Party Auth** provider in the Supabase dashboard for Firebase project `gaabe-institute-auth`.
 2. Add Firebase as a third-party provider before applying the migration. The migration verifies Firebase issuer/audience and safely supports Firebase's default `anon` database role, so Cloud Functions and a billable custom-claim setter are not required.
-3. Set the public environment values from `.env.example` in the client build environment. Do not place private keys there.
-4. Apply and verify the Supabase migration, then generate TypeScript database types.
+3. Configure the same public environment values from `.env.example` in the repeatable deployment pipeline. The current manual demo deployment is configured; do not place private keys there.
+4. Generate and commit TypeScript database types when the data repository layer is introduced.
 5. Implement the server-side, authenticated R2 upload/download gateway. The `gaabe-institute-assets` bucket is private and ready; the browser must never receive R2 credentials.
 6. Add server-side Stripe test-mode webhooks before granting any paid entitlement.
 7. Replace individual demo-data readers with queried repositories, route by route, and remove their demo fallback only after each live path passes tests.
