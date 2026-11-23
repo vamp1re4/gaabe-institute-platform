@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { T } from '@gaabe/i18n';
-import { Button, DemoBanner, MotionProvider, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
+import { Button, MotionProvider, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
 import { useDemoUser } from './state';
 import { productionAuthEnabled, signOutProduction, useProductionUser } from './production-auth';
 import { Home } from './pages/Home';
@@ -106,7 +106,7 @@ export function App() {
     <MotionProvider enabled={false}>
       <SiteShell
         nav={NAV}
-        demoBanner={<DemoBanner />}
+        visualMode="frosted"
         tools={<AuthTools />}
         homeLink={(children: ReactNode) => (
           <Link to="/" className="brand">

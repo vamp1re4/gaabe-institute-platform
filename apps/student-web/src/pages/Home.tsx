@@ -13,8 +13,8 @@ const BENEFITS: { title: MessageKey; body: MessageKey }[] = [
 export function Home() {
   return (
     <>
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="container">
+      <section className="hero spatial-hero" aria-labelledby="hero-title">
+        <div className="container hero-content">
           <p style={{ margin: 0, color: 'var(--gold-300)', fontWeight: 700 }}>
             <T k="brand.tagline" />
           </p>
@@ -42,7 +42,7 @@ export function Home() {
         <p className="muted">
           <T k="courses.subtitle" />
         </p>
-        <div className="grid">
+        <div className="card-rail" aria-label="Featured courses">
           {publishedCourses.slice(0, 3).map((c) => (
             <Link key={c.id} to={`/courses/${c.id}`} className="card glass-frosted card-link">
               <div className="row" style={{ marginBlockEnd: 8 }}>
@@ -60,9 +60,9 @@ export function Home() {
         <h2 id="why">
           <T k="home.benefits" />
         </h2>
-        <div className="grid">
-          {BENEFITS.map((b) => (
-            <div key={b.title} className="card glass-frosted">
+        <div className="grid benefit-grid">
+          {BENEFITS.slice(0, 3).map((b) => (
+            <div key={b.title} className="card glass-frosted benefit-card">
               <h3>
                 <T k={b.title} />
               </h3>
@@ -72,9 +72,6 @@ export function Home() {
             </div>
           ))}
         </div>
-        <p className="muted" style={{ marginBlockStart: 24 }}>
-          <T k="common.dhivehiDraftNotice" />
-        </p>
       </section>
     </>
   );

@@ -184,9 +184,11 @@ export interface ShellProps {
   demoBanner?: ReactNode;
   /** 'sidebar': nav lives in a sidebar rendered by the app on wide screens; the header only shows it in the menu on narrow ones. */
   navMode?: 'top' | 'sidebar';
+  /** Each portal has a deliberately different visual surface treatment. */
+  visualMode?: 'frosted' | 'liquid';
 }
 
-export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, children, demoBanner, navMode = 'top' }: ShellProps) {
+export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, children, demoBanner, navMode = 'top', visualMode }: ShellProps) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   // Controls render exactly once: in the header on wide screens, inside the menu on narrow ones.
@@ -199,7 +201,7 @@ export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, child
     </>
   );
   return (
-    <>
+    <div className={`app-shell${visualMode ? ` app-shell-${visualMode}` : ''}`}>
       <a className="skip-link" href="#main">
         {t('nav.skipToContent')}
       </a>
@@ -250,7 +252,7 @@ export function SiteShell({ nav, renderLink, homeLink, brandSuffix, tools, child
       <main id="main" tabIndex={-1}>
         {children}
       </main>
-    </>
+    </div>
   );
 }
 

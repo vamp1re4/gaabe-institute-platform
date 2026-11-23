@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { T, useI18n } from '@gaabe/i18n';
-import { Badge, DemoBanner, Lang, Notice, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
+import { Badge, Lang, Notice, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
 import { courses, students, worksheets } from '@gaabe/demo-data';
 import { ProductionCourses } from './pages/ProductionCourses';
 
@@ -40,14 +40,6 @@ function Dashboard() {
         <Metric label="Sample students" value={String(students.length)} note="Fictional records" />
         <Metric label="Published courses" value={String(published)} note={`${lessons} sample lessons`} />
         <Metric label="Teacher-graded prompts" value={String(teacherGraded)} note="Demo worksheet items" />
-      </section>
-      <section className="card glass-liquid stack">
-        <div><h2>Production readiness</h2><p>What this demonstration can and cannot do is deliberately visible to staff.</p></div>
-        <ul>
-          <li>Course, worksheet, and document records below are fictional browser data.</li>
-          <li>There is no real staff login, role check, audit log, file upload, payment verification, or publishing API.</li>
-          <li>Do not use this screen to handle student records, payment evidence, or original learning materials.</li>
-        </ul>
       </section>
     </Page>
   );
@@ -120,7 +112,7 @@ function Subscriptions() {
 export function App() {
   return <SiteShell
     nav={NAV}
-    demoBanner={<DemoBanner messageKey="admin.mockNotice" />}
+    visualMode="liquid"
     brandSuffix={<small> · <T k="admin.title" /></small>}
     homeLink={(children) => <Link to="/" className="brand">{children}</Link>}
     renderLink={({ to, children, onClick }) => <NavLink to={to} end={to === '/'} onClick={onClick}>{children}</NavLink>}

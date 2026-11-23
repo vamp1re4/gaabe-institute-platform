@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatMVR, T, useI18n, type MessageKey } from '@gaabe/i18n';
 import { Badge, Button, Lang, Notice } from '@gaabe/ui';
 import { plans } from '@gaabe/demo-data';
@@ -18,6 +18,13 @@ export function Pricing() {
   const [selected, setSelected] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const chosen = plans.find((p) => p.id === selected);
+
+  useEffect(() => {
+    if (!chosen) return;
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') setSelected(null); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [chosen]);
 
   async function selectPlan(id: string) {
     setCheckoutError(null);
@@ -42,8 +49,6 @@ export function Pricing() {
         <h1><T k="pricing.title" /></h1>
         <p className="muted"><T k="pricing.subtitle" /></p>
       </div>
-      <Notice><T k="common.demoNotice" /></Notice>
-
       <div className="grid">
         {displayPlans.map((p) => (
           <section key={p.id} className="card stack" aria-labelledby={`plan-${p.id}`} style={p.highlight ? { borderColor: 'var(--accent)', borderWidth: 2 } : undefined}>
@@ -73,15 +78,17 @@ export function Pricing() {
       {checkoutError && <p role="alert" style={{ color: 'var(--danger)' }}>{checkoutError}</p>}
 
       {!productionPaymentsEnabled && chosen && (
-        <section className="card stack" aria-labelledby="checkout" role="region">
-          <h2 id="checkout"><T k="pricing.checkoutTitle" /></h2>
-          <Notice tone="error"><T k="pricing.checkoutBody" /></Notice>
-          <p><strong><Lang>{chosen.name}</Lang></strong> — {formatMVR(locale, chosen.priceMVR)} <T k={PERIOD[chosen.period]} /></p>
-          <div className="row">
-            <Button onClick={() => { activate(chosen.id); setSelected(null); }}><T k="pricing.confirm" /></Button>
-            <Button variant="ghost" onClick={() => setSelected(null)}><T k="common.cancel" /></Button>
-          </div>
-        </section>
+        <div className="focus-layer" role="presentation" onMouseDown={() => setSelected(null)}>
+          <section className="card focus-dialog stack" aria-labelledby="checkout" aria-modal="true" role="dialog" onMouseDown={(event) => event.stopPropagation()}>
+            <h2 id="checkout"><T k="pricing.checkoutTitle" /></h2>
+            <Notice tone="error"><T k="pricing.checkoutBody" /></Notice>
+            <p><strong><Lang>{chosen.name}</Lang></strong> — {formatMVR(locale, chosen.priceMVR)} <T k={PERIOD[chosen.period]} /></p>
+            <div className="row">
+              <Button autoFocus onClick={() => { activate(chosen.id); setSelected(null); }}><T k="pricing.confirm" /></Button>
+              <Button variant="ghost" onClick={() => setSelected(null)}><T k="common.cancel" /></Button>
+            </div>
+          </section>
+        </div>
       )}
 
       {planId && planId !== 'free' && (
