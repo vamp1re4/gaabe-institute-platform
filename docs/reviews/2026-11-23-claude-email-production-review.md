@@ -57,20 +57,30 @@ owner's checklist item 6 (email), picked up while Codex is on item 5
   production schema I just patched a security hole in, and I'd rather it get
   its own focused review once the KV/webhook pieces are actually deployed,
   not bundled in.
-- **Did not send the one controlled test email.** I now have a Resend tool
-  that can send directly, but it requires an explicit sender and recipient
-  from the owner before every send — it won't let me supply either myself,
-  and sending a real email isn't reversible. **I need you to tell me: which
-  address should receive the test, and what `from` address to send it from**
-  (e.g. `noreply@mail.techtasks.store`, matching `EMAIL_FROM` in
-  `wrangler.jsonc`). Once you confirm both, I'll send one and report back the
-  message id, delivery status, and whatever the account's metrics show
-  shortly after.
+- **The one controlled test email was sent and confirmed delivered**, after
+  the owner explicitly named both the recipient and sender (neither was
+  chosen by me — the Resend tool itself requires that):
+  - From: `Gaabe Institute <noreply@mail.techtasks.store>`
+  - To: `Shahulaan8@gmail.com`
+  - Resend status: `delivered`
+  - Message ID: `010001a2069b018b-0bbf6b08-3bac-45c6-8866-683effc4c9e6-000000@email.amazonses.com`
+  - Sent 2026-11-23 04:12:31 UTC, via `mail.techtasks.store` (the verified
+    domain), not through the `services/email-worker` Worker — that Worker
+    isn't deployed yet, so this test exercised Resend/DNS/domain
+    deliverability directly, not the Worker's auth, idempotency, or
+    suppression logic. Those need their own test once the Worker is
+    deployed with real secrets.
+  - Inbox placement (not landing in spam) still needs the owner's own
+    confirmation — Resend's "delivered" status means its handoff to the
+    receiving mail server succeeded, not that it reached the primary inbox.
 
 ## Still open from the owner's item 6
 
-- The controlled delivery test (blocked on the question above).
+- Confirm inbox placement of the test email above (owner, not me).
 - Wiring welcome/verification/enrollment/reminder to real events (next,
   pending KV + webhook deployment).
 - A database-backed send ledger, retry queue, and durable rate limiting —
   not started.
+- A second delivery test through the actual `services/email-worker` Worker
+  once it's deployed, to exercise the token/idempotency/suppression path
+  this document's test did not touch.
