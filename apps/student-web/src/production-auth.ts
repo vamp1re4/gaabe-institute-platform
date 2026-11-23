@@ -14,6 +14,8 @@ export const productionAuthEnabled = configured;
 export const paymentsUrl = import.meta.env.VITE_PAYMENTS_URL as string | undefined;
 export const productionPaymentsEnabled = Boolean(configured && paymentsUrl);
 
+export type PaymentNotification = { id: string; status: string };
+
 async function persistProfile(user: User, displayName?: string) {
   if (!clients) return;
   const { error } = await clients.supabase.from('profiles').upsert({
@@ -31,6 +33,32 @@ export function useProductionUser() {
     return onAuthStateChanged(clients.auth, setUser);
   }, []);
   return user;
+}
+
+/** Realtime contains only the learner's status notification, never payment rows. */
+export function usePaymentNotification() {
+  const user = useProductionUser();
+  const [notification, setNotification] = useState<PaymentNotification | null>(null);
+  useEffect(() => {
+    if (!clients || !user) return;
+    let active = true;
+    const channel = clients.supabase.channel(`payment-status-${user.uid}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications', filter: `recipient_uid=eq.${user.uid}` }, (event) => {
+        const row = event.new as { id?: string; kind?: string; payload?: { status?: string } };
+        if (row.kind === 'test_subscription_updated' && typeof row.id === 'string' && typeof row.payload?.status === 'string') setNotification({ id: row.id, status: row.payload.status });
+      });
+    void (async () => {
+      const token = await user.getIdToken();
+      if (!active) return;
+      clients.supabase.realtime.setAuth(token);
+      const { data } = await clients.supabase.from('notifications').select('id, payload').eq('kind', 'test_subscription_updated').order('created_at', { ascending: false }).limit(1);
+      const latest = data?.[0] as { id?: string; payload?: { status?: string } } | undefined;
+      if (latest && typeof latest.id === 'string' && typeof latest.payload?.status === 'string') setNotification({ id: latest.id, status: latest.payload.status });
+      channel.subscribe();
+    })();
+    return () => { active = false; void clients.supabase.removeChannel(channel); };
+  }, [user]);
+  return notification;
 }
 
 export async function signInProduction(email: string, password: string) {
