@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { Courses } from './pages/Courses';
 import { CourseDetail } from './pages/CourseDetail';
 import { Pricing } from './pages/Pricing';
+import { PaymentReturn } from './pages/PaymentReturn';
 import { SignIn, Register } from './pages/Auth';
 
 // Heavier / less-visited screens are code-split.
@@ -47,6 +48,7 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
   '/': { title: 'Islamic studies tuition', description: 'Structured Islamic studies lessons, guided revision and worksheets for students in the Maldives.' },
   '/courses': { title: 'Courses', description: 'Browse Gaabe Institute demonstration courses.' },
   '/pricing': { title: 'Pricing', description: 'View demonstration plans for Gaabe Institute.' },
+  '/payment/success': { title: 'Payment verification', description: 'Your test payment is being verified by Gaabe Institute.' },
   '/sign-in': { title: 'Sign in', description: 'Sign in to the Gaabe Institute demonstration.' },
   '/register': { title: 'Create an account', description: 'Create a demonstration account for Gaabe Institute.' },
 };
@@ -132,6 +134,7 @@ export function App() {
             <Route path="/presentations" element={<PresentationPage />} />
             <Route path="/documents" element={<DocumentsPage />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/payment/success" element={<PaymentReturn />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route
