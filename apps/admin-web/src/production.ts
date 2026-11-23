@@ -26,6 +26,13 @@ export async function loadStaffOrganization() {
   return data.organization_id;
 }
 
+export async function loadStaffContext() {
+  if (!clients?.auth.currentUser) throw new Error('Sign in first.');
+  const { data, error } = await clients.supabase.from('organization_members').select('organization_id, role').limit(1).maybeSingle();
+  if (error || !data || !['owner', 'admin', 'teacher'].includes(data.role)) throw new Error('This account does not have publishing access.');
+  return data as { organization_id: string; role: 'owner' | 'admin' | 'teacher' };
+}
+
 export async function loadCourses() {
   if (!clients) return [];
   const organizationId = await loadStaffOrganization();
@@ -46,5 +53,48 @@ export async function createDraftCourse(input: { title: string; summary: string;
     summary: input.summary.trim(),
     access_tier: input.accessTier,
   });
+  if (error) throw error;
+}
+
+export async function savePublicProfile(input: { teacherName: string; teacherBio: string; contactEmail: string }) {
+  if (!clients?.auth.currentUser) throw new Error('Sign in first.');
+  const organizationId = await loadStaffOrganization();
+  const { error } = await clients.supabase.from('organization_public_profiles').upsert({
+    organization_id: organizationId,
+    teacher_name: input.teacherName.trim(),
+    teacher_bio: input.teacherBio.trim(),
+    contact_email: input.contactEmail.trim().toLowerCase() || null,
+    updated_by_uid: clients.auth.currentUser.uid,
+  });
+  if (error) throw error;
+}
+
+export async function addLearningPack(input: { courseId: string; moduleTitle: string; lessonTitle: string; lessonBody: string; worksheetTitle: string; question: string; presentationTitle: string; slides: string }) {
+  if (!clients?.auth.currentUser) throw new Error('Sign in first.');
+  const { data: existingModules, error: modulesError } = await clients.supabase.from('course_modules').select('position').eq('course_id', input.courseId).order('position', { ascending: false }).limit(1);
+  if (modulesError) throw modulesError;
+  const modulePosition = (existingModules?.[0]?.position ?? 0) + 1;
+  const { data: module, error: moduleError } = await clients.supabase.from('course_modules').insert({ course_id: input.courseId, position: modulePosition, title: input.moduleTitle.trim() }).select('id').single();
+  if (moduleError || !module) throw moduleError ?? new Error('Module could not be created.');
+  const { data: lesson, error: lessonError } = await clients.supabase.from('lessons').insert({ module_id: module.id, position: 1, title: input.lessonTitle.trim(), body: { content: input.lessonBody.trim() }, duration_minutes: 15 }).select('id').single();
+  if (lessonError || !lesson) throw lessonError ?? new Error('Lesson could not be created.');
+  const { data: worksheet, error: worksheetError } = await clients.supabase.from('worksheets').insert({ lesson_id: lesson.id, title: input.worksheetTitle.trim(), published: true }).select('id').single();
+  if (worksheetError || !worksheet) throw worksheetError ?? new Error('Worksheet could not be created.');
+  const { error: questionError } = await clients.supabase.from('worksheet_questions').insert({ worksheet_id: worksheet.id, position: 1, prompt: { content: input.question.trim() }, question_type: 'short_answer', configuration: {} });
+  if (questionError) throw questionError;
+  const slides = input.slides.split('\n').map((line) => line.trim()).filter(Boolean).map((content, index) => ({ position: index + 1, content }));
+  const { error: presentationError } = await clients.supabase.from('presentations').insert({ course_id: input.courseId, title: input.presentationTitle.trim(), slides, published: true, created_by_uid: clients.auth.currentUser.uid });
+  if (presentationError) throw presentationError;
+}
+
+export async function submitCourseForReview(courseId: string) {
+  if (!clients?.auth.currentUser) throw new Error('Sign in first.');
+  const { error } = await clients.supabase.from('course_review_requests').upsert({ course_id: courseId, submitted_by_uid: clients.auth.currentUser.uid, status: 'pending', review_note: '' }, { onConflict: 'course_id' });
+  if (error) throw error;
+}
+
+export async function approveCourse(courseId: string, reviewNote = '') {
+  if (!clients) throw new Error('Production administration is not configured.');
+  const { error } = await clients.supabase.rpc('approve_course_review', { p_course_id: courseId, p_review_note: reviewNote });
   if (error) throw error;
 }

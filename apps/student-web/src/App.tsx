@@ -22,10 +22,6 @@ const DocumentsPage = lazy(() => import('./pages/Documents').then((m) => ({ defa
 const NAV: NavItem[] = [
   { to: '/', labelKey: 'nav.home' },
   { to: '/courses', labelKey: 'nav.courses' },
-  { to: '/worksheets', labelKey: 'nav.worksheets' },
-  { to: '/exams', labelKey: 'nav.exams' },
-  { to: '/presentations', labelKey: 'nav.presentations' },
-  { to: '/documents', labelKey: 'nav.documents' },
   { to: '/pricing', labelKey: 'nav.pricing' },
   { to: '/dashboard', labelKey: 'nav.dashboard' },
 ];
