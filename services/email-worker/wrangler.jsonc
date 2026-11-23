@@ -12,5 +12,12 @@
   },
   "vars": {
     "EMAIL_FROM": "Gaabe Institute <noreply@mail.techtasks.store>"
-  }
+  },
+  // Create with `wrangler kv namespace create SUPPRESSIONS` and put the
+  // returned id here before deploying the webhook/suppression behaviour.
+  // Until an id is set, the binding is absent and the worker degrades to
+  // "no suppression list" rather than failing (see services/email-worker/README.md).
+  "kv_namespaces": [
+    { "binding": "SUPPRESSIONS", "id": "REPLACE_WITH_REAL_KV_NAMESPACE_ID" }
+  ]
 }
