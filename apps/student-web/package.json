@@ -9,6 +9,7 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "@gaabe/api": "*",
     "@gaabe/demo-data": "*",
     "@gaabe/i18n": "*",
     "@gaabe/speech": "*",

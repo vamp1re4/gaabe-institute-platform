@@ -3,6 +3,7 @@ import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { T } from '@gaabe/i18n';
 import { Button, DemoBanner, MotionProvider, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
 import { useDemoUser } from './state';
+import { productionAuthEnabled, signOutProduction, useProductionUser } from './production-auth';
 import { Home } from './pages/Home';
 import { Courses } from './pages/Courses';
 import { CourseDetail } from './pages/CourseDetail';
@@ -76,7 +77,14 @@ function PageMetadata() {
 
 function AuthTools() {
   const { user, signOut } = useDemoUser();
-  if (user)
+  const productionUser = useProductionUser();
+  if (productionAuthEnabled && productionUser)
+    return (
+      <Button size="sm" variant="ghost" onClick={() => void signOutProduction()} style={{ color: 'inherit' }}>
+        <T k="nav.signOut" />
+      </Button>
+    );
+  if (!productionAuthEnabled && user)
     return (
       <Button size="sm" variant="ghost" onClick={signOut} style={{ color: 'inherit' }}>
         <T k="nav.signOut" />
