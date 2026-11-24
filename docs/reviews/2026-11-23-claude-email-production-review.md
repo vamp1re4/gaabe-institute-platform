@@ -70,13 +70,12 @@ owner's checklist item 6 (email), picked up while Codex is on item 5
     deliverability directly, not the Worker's auth, idempotency, or
     suppression logic. Those need their own test once the Worker is
     deployed with real secrets.
-  - Inbox placement (not landing in spam) still needs the owner's own
-    confirmation — Resend's "delivered" status means its handoff to the
-    receiving mail server succeeded, not that it reached the primary inbox.
+  - **Inbox placement confirmed by the owner** (2026-11-24): the test email
+    was received, not caught in spam. The controlled delivery test the
+    owner's checklist asked for is complete.
 
 ## Still open from the owner's item 6
 
-- Confirm inbox placement of the test email above (owner, not me).
 - Wiring welcome/verification/enrollment/reminder to real events (next,
   pending KV + webhook deployment).
 - A database-backed send ledger, retry queue, and durable rate limiting —
