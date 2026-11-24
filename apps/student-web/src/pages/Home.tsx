@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { T, type MessageKey } from '@gaabe/i18n';
 import { Badge, Lang } from '@gaabe/ui';
-import { publishedCourses } from '@gaabe/demo-data';
+import { usePublishedCourses } from '../production-content';
 
 const BENEFITS: { title: MessageKey; body: MessageKey }[] = [
   { title: 'home.benefit.interactive.title', body: 'home.benefit.interactive.body' },
@@ -11,6 +11,7 @@ const BENEFITS: { title: MessageKey; body: MessageKey }[] = [
 ];
 
 export function Home() {
+  const { courses, loading } = usePublishedCourses();
   return (
     <>
       <section className="hero spatial-hero" aria-labelledby="hero-title">
@@ -39,20 +40,17 @@ export function Home() {
         <h2 id="featured">
           <T k="home.featured" />
         </h2>
-        <p className="muted">
-          <T k="courses.subtitle" />
-        </p>
         <div className="card-rail" aria-label="Featured courses">
-          {publishedCourses.slice(0, 3).map((c) => (
+          {courses.slice(0, 3).map((c) => (
             <Link key={c.id} to={`/courses/${c.id}`} className="card glass-frosted card-link">
               <div className="row" style={{ marginBlockEnd: 8 }}>
-                <Badge tone={c.free ? 'default' : 'gold'}>{c.free ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
-                <Badge tone="muted"><Lang>{c.level}</Lang></Badge>
+                <Badge tone={c.access_tier === 'free' ? 'default' : 'gold'}>{c.access_tier === 'free' ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
               </div>
               <h3><Lang>{c.title}</Lang></h3>
               <p className="muted"><Lang>{c.summary}</Lang></p>
             </Link>
           ))}
+          {!loading && courses.length === 0 && <p className="muted">Published courses will appear here after client approval.</p>}
         </div>
       </section>
 
