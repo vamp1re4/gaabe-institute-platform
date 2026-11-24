@@ -1,12 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
 import { T } from '@gaabe/i18n';
 import { Badge, Lang } from '@gaabe/ui';
-import { usePublishedCourses } from '../production-content';
+import { useLiveLessonProgress, usePublishedCourses } from '../production-content';
 
 export function CourseDetail() {
   const { courseId } = useParams();
   const { courses, loading } = usePublishedCourses(courseId);
   const course = courses[0];
+  const lessons = course?.course_modules.flatMap((m) => m.lessons) ?? [];
+  const { completed } = useLiveLessonProgress(lessons.map((lesson) => lesson.id));
 
   if (!loading && !course) {
     return (
@@ -21,7 +23,6 @@ export function CourseDetail() {
     );
   }
   if (!course) return <div className="container page"><p className="muted">Loading course…</p></div>;
-  const lessons = course.course_modules.flatMap((m) => m.lessons);
 
   return (
     <div className="container page stack">
@@ -42,8 +43,9 @@ export function CourseDetail() {
             {m.lessons.map((l) => {
               return (
                 <li key={l.id} className="row row-between">
-                  <Lang>{l.title}</Lang>
+                  <Link to={`/courses/${course.id}/lessons/${l.id}`}><Lang>{l.title}</Lang></Link>
                   <span className="row">
+                    {completed[l.id] && <span aria-label="Completed">✓</span>}
                     {l.duration_minutes && <span className="muted">{l.duration_minutes} min</span>}
                   </span>
                 </li>
