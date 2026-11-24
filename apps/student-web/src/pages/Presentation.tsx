@@ -58,13 +58,13 @@ export function PresentationPage() {
 
       <div ref={stage} style={{ background: 'var(--bg)' }}>
         <section className="slide" aria-roledescription="slide" aria-label={t('presentation.slideN', { n: i + 1, total })} lang={slide.lang} dir={slideDir}>
-          <h2>{slide.title}</h2>
+          <h2><Lang code={slide.lang}>{slide.title}</Lang></h2>
           <ul>
-            {slide.bullets.map((b) => <li key={b}>{b}</li>)}
+            {slide.bullets.map((b) => <li key={b}><Lang code={slide.lang}>{b}</Lang></li>)}
           </ul>
         </section>
       </div>
-      {slide.notes && <p className="muted">{slide.notes}</p>}
+      {slide.notes && <p className="muted"><Lang code={slide.lang}>{slide.notes}</Lang></p>}
 
       <div className="row row-between">
         <div className="row">

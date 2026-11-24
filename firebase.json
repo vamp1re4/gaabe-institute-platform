@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Gaabe Institute",
+        "supportEmail": "shahulaan8@gmail.com"
+      }
+    }
+  }
+}

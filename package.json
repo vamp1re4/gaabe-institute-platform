@@ -12,10 +12,13 @@
     "dev:student": "npm run dev -w @gaabe/student-web",
     "dev:admin": "npm run dev -w @gaabe/admin-web",
     "typecheck:email": "wrangler types services/email-worker/worker-configuration.d.ts --config services/email-worker/wrangler.jsonc && tsc --noEmit -p tsconfig.json",
+    "typecheck:payments": "wrangler types services/payments-worker/worker-configuration.d.ts --config services/payments-worker/wrangler.jsonc && tsc --noEmit -p tsconfig.json",
     "build": "npm run build -w @gaabe/student-web && npm run build -w @gaabe/admin-web",
+    "deploy:demo:student": "npm run build -w @gaabe/student-web && wrangler deploy --config apps/student-web/wrangler.jsonc --old-asset-ttl 86400",
+    "deploy:demo:admin": "npm run build -w @gaabe/admin-web && wrangler deploy --config apps/admin-web/wrangler.jsonc --old-asset-ttl 86400",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "verify": "npm run typecheck:email && npm run test && npm run build"
+    "verify": "npm run typecheck:email && npm run typecheck:payments && npm run test && npm run build"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.3",
@@ -28,6 +31,13 @@
     "typescript": "7.0.2",
     "vite": "8.3.8",
     "vitest": "5.1.1",
-    "wrangler": "^4.68.0"
+    "wrangler": "^4.166.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
+    "firebase": "^13.4.0"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.13.6"
   }
 }

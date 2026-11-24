@@ -1,12 +1,14 @@
 import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import { T } from '@gaabe/i18n';
-import { Button, DemoBanner, MotionProvider, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
+import { Button, MotionProvider, NotFoundPanel, SiteShell, type NavItem } from '@gaabe/ui';
 import { useDemoUser } from './state';
+import { productionAuthEnabled, signOutProduction, useProductionUser } from './production-auth';
 import { Home } from './pages/Home';
 import { Courses } from './pages/Courses';
 import { CourseDetail } from './pages/CourseDetail';
 import { Pricing } from './pages/Pricing';
+import { PaymentReturn } from './pages/PaymentReturn';
 import { SignIn, Register } from './pages/Auth';
 
 // Heavier / less-visited screens are code-split.
@@ -20,17 +22,21 @@ const DocumentsPage = lazy(() => import('./pages/Documents').then((m) => ({ defa
 const NAV: NavItem[] = [
   { to: '/', labelKey: 'nav.home' },
   { to: '/courses', labelKey: 'nav.courses' },
-  { to: '/worksheets', labelKey: 'nav.worksheets' },
-  { to: '/exams', labelKey: 'nav.exams' },
-  { to: '/presentations', labelKey: 'nav.presentations' },
-  { to: '/documents', labelKey: 'nav.documents' },
   { to: '/pricing', labelKey: 'nav.pricing' },
   { to: '/dashboard', labelKey: 'nav.dashboard' },
 ];
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    // Some embedded mobile WebViews reject programmatic scrolling. Navigation
+    // must still succeed when that optional polish cannot run.
+    try {
+      window.scrollTo(0, 0);
+    } catch {
+      // Preserve the current scroll position rather than failing the route.
+    }
+  }, [pathname]);
   return null;
 }
 
@@ -38,6 +44,7 @@ const PAGE_META: Record<string, { title: string; description: string }> = {
   '/': { title: 'Islamic studies tuition', description: 'Structured Islamic studies lessons, guided revision and worksheets for students in the Maldives.' },
   '/courses': { title: 'Courses', description: 'Browse Gaabe Institute demonstration courses.' },
   '/pricing': { title: 'Pricing', description: 'View demonstration plans for Gaabe Institute.' },
+  '/payment/success': { title: 'Payment verification', description: 'Your test payment is being verified by Gaabe Institute.' },
   '/sign-in': { title: 'Sign in', description: 'Sign in to the Gaabe Institute demonstration.' },
   '/register': { title: 'Create an account', description: 'Create a demonstration account for Gaabe Institute.' },
 };
@@ -68,7 +75,14 @@ function PageMetadata() {
 
 function AuthTools() {
   const { user, signOut } = useDemoUser();
-  if (user)
+  const productionUser = useProductionUser();
+  if (productionAuthEnabled && productionUser)
+    return (
+      <Button size="sm" variant="ghost" onClick={() => void signOutProduction()} style={{ color: 'inherit' }}>
+        <T k="nav.signOut" />
+      </Button>
+    );
+  if (!productionAuthEnabled && user)
     return (
       <Button size="sm" variant="ghost" onClick={signOut} style={{ color: 'inherit' }}>
         <T k="nav.signOut" />
@@ -82,13 +96,13 @@ function AuthTools() {
 }
 
 export function App() {
-  const { pathname } = useLocation();
-  const marketingRoute = pathname === '/' || pathname === '/courses' || pathname === '/pricing';
+  // Lenis/GSAP is an enhancement, not a navigation dependency. Keep native
+  // scrolling while the public demo is being validated on mobile WebViews.
   return (
-    <MotionProvider enabled={marketingRoute}>
+    <MotionProvider enabled={false}>
       <SiteShell
         nav={NAV}
-        demoBanner={<DemoBanner />}
+        visualMode="frosted"
         tools={<AuthTools />}
         homeLink={(children: ReactNode) => (
           <Link to="/" className="brand">
@@ -116,6 +130,7 @@ export function App() {
             <Route path="/presentations" element={<PresentationPage />} />
             <Route path="/documents" element={<DocumentsPage />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/payment/success" element={<PaymentReturn />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
             <Route

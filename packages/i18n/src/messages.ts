@@ -1,13 +1,14 @@
+import { reviewedDhivehi } from './dhivehi-reviewed';
+
 /**
  * Message catalogue.
  *
  * ENGLISH is the source dictionary and defines every key.
  *
- * DHIVEHI entries below are DRAFTS. They have NOT been reviewed by a fluent
- * Dhivehi speaker and must not be presented as verified. Every entry carries a
- * review status (draft → reviewed → approved). Keys with no Dhivehi entry fall
- * back to English and the UI tags that fallback text lang="en" dir="ltr".
- * Marketing copy and anything religious is deliberately NOT drafted here.
+ * Dhivehi entries are owner-reviewed translations imported from the translation
+ * workbook. Every entry carries a review status (draft → reviewed → approved).
+ * Keys with no Dhivehi entry fall back to English and the UI tags that fallback
+ * text lang="en" dir="ltr".
  */
 export type Locale = 'dv' | 'en';
 export type ReviewStatus = 'draft' | 'reviewed' | 'approved';
@@ -214,32 +215,11 @@ export const en = {
 
 export type MessageKey = keyof typeof en;
 
-const draft = (text: string) => ({ text, status: 'draft' as ReviewStatus });
-
-/** DRAFT Dhivehi. Not verified. See file header. */
-export const dv: Partial<Record<MessageKey, { text: string; status: ReviewStatus }>> = {
-  'nav.home': draft('ހޯމް'),
-  'nav.courses': draft('ކޯސްތައް'),
-  'nav.pricing': draft('އަގުތައް'),
-  'nav.dashboard': draft('ޑޭޝްބޯޑް'),
-  'nav.worksheets': draft('ވަރކްޝީޓްތައް'),
-  'nav.signIn': draft('ލޮގިން'),
-  'nav.register': draft('ރަޖިސްޓަރ'),
-  'nav.language': draft('ބަސް'),
-  'common.continue': draft('ކުރިއަށް'),
-  'common.submit': draft('ހުށަހަޅާ'),
-  'common.next': draft('ދެން'),
-  'common.previous': draft('ފަހަތަށް'),
-  'common.free': draft('ފްރީ'),
-  'common.progress': draft('ޕްރޮގްރެސް'),
-  'common.price': draft('އަގު'),
-  'common.lessons': draft('ދަރުސްތައް'),
-  'common.students': draft('ދަރިވަރުން'),
-  'common.teacher': draft('އުސްތާޛު'),
-  'courses.title': draft('ކޯސްތައް'),
-  'admin.nav.students': draft('ދަރިވަރުން'),
-  'admin.nav.courses': draft('ކޯސްތައް'),
-};
+/** Owner-reviewed Dhivehi copy imported from the translation workbook. */
+export const dv: Partial<Record<MessageKey, { text: string; status: ReviewStatus }>> =
+  Object.fromEntries(
+    Object.entries(reviewedDhivehi).map(([key, text]) => [key, { text, status: 'reviewed' as ReviewStatus }]),
+  ) as Partial<Record<MessageKey, { text: string; status: ReviewStatus }>>;
 
 export const LOCALES: Record<
   Locale,

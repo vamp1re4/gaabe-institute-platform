@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { LOCALES, type Locale, type MessageKey } from './messages';
+import { reviewedContent } from './dhivehi-reviewed';
 import { translate, type Translation, type Vars } from './translate';
 
 /**
@@ -24,6 +25,8 @@ interface I18nValue {
   /** Plain string (fallback text included — use <T> when the language tag matters). */
   t: (key: MessageKey, vars?: Vars) => string;
   tx: (key: MessageKey, vars?: Vars) => Translation;
+  /** Owner-reviewed translation for visible demo/static content. */
+  c: (english: string) => string;
 }
 
 const Ctx = createContext<I18nValue | null>(null);
@@ -64,6 +67,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       setLocale,
       t: (key, vars) => translate(locale, key, vars).text,
       tx: (key, vars) => translate(locale, key, vars),
+      c: (english) => locale === 'dv' ? reviewedContent[english as keyof typeof reviewedContent] ?? english : english,
     }),
     [locale, dir, setLocale],
   );

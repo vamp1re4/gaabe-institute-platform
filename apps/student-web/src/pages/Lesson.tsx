@@ -5,6 +5,8 @@ import { makeDemoToneUrl, ReadAloudToolbar, toSegments, useReadingSegmentId, typ
 import { Badge, Button, Lang, Notice } from '@gaabe/ui';
 import { findLesson, findWorksheet, type ContentBlock } from '@gaabe/demo-data';
 import { useProgress, useSubscription } from '../state';
+import { productionContentEnabled } from '../production-content';
+import { LiveLessonPage } from './LiveLesson';
 
 const dirFor = (lang: string) => (lang === 'dv' || lang === 'ar' ? 'rtl' : 'ltr');
 
@@ -17,7 +19,7 @@ function Block({ block, reading }: { block: ContentBlock; reading: boolean }) {
         className={reading ? 'reading-now' : undefined}
         style={{ fontSize: '1.1rem' }}
       >
-        {block.text}
+        <Lang code={block.lang}>{block.text}</Lang>
       </p>
       {block.unverified && (
         <Badge tone="muted">
@@ -29,6 +31,7 @@ function Block({ block, reading }: { block: ContentBlock; reading: boolean }) {
 }
 
 export function LessonPage() {
+  if (productionContentEnabled) return <LiveLessonPage />;
   const { courseId, lessonId } = useParams();
   const { t } = useI18n();
   const found = findLesson(courseId, lessonId);

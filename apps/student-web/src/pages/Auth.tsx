@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { T, useI18n } from '@gaabe/i18n';
 import { Button, Notice } from '@gaabe/ui';
 import { useDemoUser } from '../state';
+import { productionAuthEnabled, registerProduction, signInProduction } from '../production-auth';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -12,7 +13,7 @@ function AuthForm({ mode }: { mode: 'signin' | 'register' }) {
   const { signIn } = useDemoUser();
   const [errors, setErrors] = useState<{ email?: boolean; password?: boolean; name?: boolean }>({});
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const email = String(f.get('email') ?? '').trim();
@@ -25,9 +26,18 @@ function AuthForm({ mode }: { mode: 'signin' | 'register' }) {
     };
     setErrors(next);
     if (next.email || next.password || next.name) return;
-    // DEMO: nothing is sent anywhere and the password is discarded.
-    signIn(name || email.split('@')[0]!);
-    nav('/dashboard');
+    try {
+      if (productionAuthEnabled) {
+        if (mode === 'register') await registerProduction(name, email, password);
+        else await signInProduction(email, password);
+      } else {
+        // Demo deployments have no production identity provider configured.
+        signIn(name || email.split('@')[0]!);
+      }
+      nav('/dashboard');
+    } catch {
+      setErrors({ email: true, password: true, name: mode === 'register' && name.length < 2 });
+    }
   }
 
   return (
@@ -36,7 +46,7 @@ function AuthForm({ mode }: { mode: 'signin' | 'register' }) {
         <h1 id="auth-h" style={{ fontSize: '1.6rem' }}>
           <T k={mode === 'signin' ? 'auth.signIn.title' : 'auth.register.title'} />
         </h1>
-        <Notice><T k="auth.demoNotice" /></Notice>
+        {!productionAuthEnabled && <Notice><T k="auth.demoNotice" /></Notice>}
 
         {mode === 'register' && (
           <div className="field">

@@ -2,17 +2,18 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { T, useI18n } from '@gaabe/i18n';
 import { Badge, Button, Lang } from '@gaabe/ui';
-import { publishedCourses } from '@gaabe/demo-data';
+import { usePublishedCourses } from '../production-content';
 
 type Filter = 'all' | 'free' | 'premium';
 
 export function Courses() {
   const { t } = useI18n();
+  const { courses, loading, error } = usePublishedCourses();
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
-  const list = publishedCourses.filter(
+  const list = courses.filter(
     (c) =>
-      (filter === 'all' || (filter === 'free') === c.free) &&
+      (filter === 'all' || filter === c.access_tier) &&
       `${c.title} ${c.summary}`.toLowerCase().includes(query.trim().toLowerCase()),
   );
   const filters: { id: Filter; label: 'courses.filter.all' | 'courses.filter.free' | 'courses.filter.premium' }[] = [
@@ -26,9 +27,6 @@ export function Courses() {
         <h1>
           <T k="courses.title" />
         </h1>
-        <p className="muted">
-          <T k="courses.subtitle" />
-        </p>
       </div>
       <div className="row">
         <div className="field" style={{ flex: '1 1 14rem' }}>
@@ -49,17 +47,18 @@ export function Courses() {
         {list.map((c) => (
           <Link key={c.id} to={`/courses/${c.id}`} className="card card-link">
             <div className="row" style={{ marginBlockEnd: 8 }}>
-              <Badge tone={c.free ? 'default' : 'gold'}>{c.free ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
-              <Badge tone="muted"><Lang>{c.level}</Lang></Badge>
+              <Badge tone={c.access_tier === 'free' ? 'default' : 'gold'}>{c.access_tier === 'free' ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
             </div>
             <h2><Lang>{c.title}</Lang></h2>
             <p className="muted"><Lang>{c.summary}</Lang></p>
             <p className="muted" style={{ margin: 0 }}>
-              {c.modules.reduce((n, m) => n + m.lessons.length, 0)} <T k="common.lessons" />
+              {c.course_modules.reduce((n, m) => n + m.lessons.length, 0)} <T k="common.lessons" />
             </p>
           </Link>
         ))}
-        {list.length === 0 && <p className="muted">—</p>}
+        {loading && <p className="muted">Loading courses…</p>}
+        {error && <p className="muted">{error}</p>}
+        {!loading && !error && list.length === 0 && <p className="muted">No published courses are available yet.</p>}
       </div>
     </div>
   );

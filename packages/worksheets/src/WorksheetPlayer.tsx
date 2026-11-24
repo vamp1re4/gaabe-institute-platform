@@ -157,9 +157,7 @@ function QuestionCard({ q, n, total, answer, onChange, locked, result }: QCardPr
         {result && <VerdictBadge r={result} />}
       </div>
       <legend id={legendId} style={{ fontWeight: 700, paddingInline: 0, marginBlock: 8 }}>
-        <span lang={q.promptLang} dir={q.promptLang === 'dv' || q.promptLang === 'ar' ? 'rtl' : 'ltr'}>
-          {q.prompt}
-        </span>
+        <Lang code={q.promptLang}>{q.prompt}</Lang>
       </legend>
       <ReadAloudToolbar
         compact

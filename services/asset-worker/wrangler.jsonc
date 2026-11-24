@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "gaabe-private-assets",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-23",
+  "workers_dev": true,
+  "r2_buckets": [{ "binding": "ASSETS", "bucket_name": "gaabe-institute-assets" }],
+  "observability": { "enabled": true, "logs": { "enabled": true, "head_sampling_rate": 1 }, "traces": { "enabled": true, "head_sampling_rate": 0.01 } },
+  "vars": {
+    "SUPABASE_URL": "https://amtooilfapfoocwcwqsk.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_qfbZVigtoCVriT178cbXIw_w4YwFqAh",
+    "ALLOWED_ORIGINS": "https://admindemo.techtasks.store,https://clientdemo.techtasks.store"
+  }
+}
