@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { T } from '@gaabe/i18n';
+import { C, T } from '@gaabe/i18n';
 import { Badge, Lang } from '@gaabe/ui';
 import { useLiveLessonProgress, usePublishedCourses } from '../production-content';
 
@@ -22,7 +22,7 @@ export function CourseDetail() {
       </div>
     );
   }
-  if (!course) return <div className="container page"><p className="muted">Loading course…</p></div>;
+  if (!course) return <div className="container page"><p className="muted"><C>Loading course…</C></p></div>;
 
   return (
     <div className="container page stack">
@@ -51,7 +51,7 @@ export function CourseDetail() {
                   <Link to={`/courses/${course.id}/lessons/${l.id}`}><Lang>{l.title}</Lang></Link>
                   <span className="row">
                     {completed[l.id] && <span aria-label="Completed">✓</span>}
-                    {l.duration_minutes && <span className="muted">{l.duration_minutes} min</span>}
+                    {l.duration_minutes && <span className="muted">{l.duration_minutes} <C>min</C></span>}
                   </span>
                 </li>
               );

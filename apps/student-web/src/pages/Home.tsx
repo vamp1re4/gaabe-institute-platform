@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { T, type MessageKey } from '@gaabe/i18n';
+import { C, T, type MessageKey } from '@gaabe/i18n';
 import { Badge, Lang } from '@gaabe/ui';
 import { usePublishedCourses } from '../production-content';
 
@@ -50,7 +50,7 @@ export function Home() {
               <p className="muted"><Lang>{c.summary}</Lang></p>
             </Link>
           ))}
-          {!loading && courses.length === 0 && <p className="muted">Published courses will appear here after client approval.</p>}
+          {!loading && courses.length === 0 && <p className="muted"><C>Published courses will appear here after client approval.</C></p>}
         </div>
       </section>
 

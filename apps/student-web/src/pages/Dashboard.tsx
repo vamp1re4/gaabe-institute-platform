@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { T } from '@gaabe/i18n';
+import { C, T } from '@gaabe/i18n';
 import { Notice, ProgressBar } from '@gaabe/ui';
 import { useProductionUser } from '../production-auth';
 import { useLiveLessonProgress, usePublishedCourses } from '../production-content';
@@ -12,8 +12,8 @@ export function Dashboard() {
 
   return <div className="container page stack">
     <h1><T k="dashboard.title" /></h1>
-    {!user && <Notice><Link to="/sign-in"><T k="nav.signIn" /></Link> to save your learning progress across devices.</Notice>}
-    {loading ? <p className="muted">Loading learning progress…</p> : courses.length === 0 ? <p className="muted">No approved courses are available yet.</p> : <>
+    {!user && <Notice><Link to="/sign-in"><T k="nav.signIn" /></Link> <C>to save your learning progress across devices.</C></Notice>}
+    {loading ? <p className="muted"><C>Loading learning progress…</C></p> : courses.length === 0 ? <p className="muted"><C>No approved courses are available yet.</C></p> : <>
       <h2><T k="dashboard.enrolled" /></h2>
       <div className="grid">
         {courses.map((course) => {

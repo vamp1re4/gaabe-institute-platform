@@ -1,0 +1,53 @@
+# Gaabe Institute — production UI translation review
+#
+# These strings were added after the owner-reviewed workbook was supplied.
+# They are rendered safely as English (lang=en, dir=ltr) in Dhivehi mode until
+# a fluent reviewer supplies a translation. Keep the English source exact and
+# return a UTF-8 .txt or .docx with the third column filled in.
+#
+# English source	Dhivehi translation
+
+Access	
+Add the real module, lesson, worksheet and presentation for a selected draft course.	
+Approve & publish	
+Build the learner experience	
+Contact email	
+Content workspace	
+Course	
+Course title	
+Create draft	
+Create real course	
+Create the first course, then add its lesson, worksheet and presentation below.	
+Creating…	
+Lesson text	
+Lesson title	
+Loading courses…	
+Loading course…	
+Loading learning progress…	
+Loading lesson…	
+Loading…	
+Manage your real teacher profile, courses, lessons, worksheets, and presentations from one place. Content stays in draft until the organization owner approves it.	
+Module title	
+No approved courses are available yet.	
+No published courses are available yet.	
+Open courses	
+Presentation slides	
+Presentation title	
+Production administration is not configured for this build.	
+Published courses will appear here after client approval.	
+Save learning pack	
+Save teacher profile	
+Saving…	
+Short biography	
+Staff sign in	
+Submit for client approval	
+Summary	
+Teacher name	
+Teacher profile	
+This is the public information learners see. Use real details only.	
+This lesson has no written content yet.	
+Worksheet question	
+Worksheet title	
+min	
+to save your learning progress across devices.	
+to save your progress.	

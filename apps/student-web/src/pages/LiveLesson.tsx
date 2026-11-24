@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { T } from '@gaabe/i18n';
+import { C, T } from '@gaabe/i18n';
 import { Button, Lang, Notice } from '@gaabe/ui';
 import { useLiveLessonProgress, usePublishedCourses } from '../production-content';
 
@@ -17,7 +17,7 @@ export function LiveLessonPage() {
   const { completed, markComplete, signedIn } = useLiveLessonProgress(lessons.map((item) => item.id));
   const [error, setError] = useState('');
 
-  if (loading) return <div className="container page"><p className="muted">Loading lesson…</p></div>;
+  if (loading) return <div className="container page"><p className="muted"><C>Loading lesson…</C></p></div>;
   if (!course || !lesson) return <div className="container page"><h1><T k="courses.notFound" /></h1><Link className="btn" to="/courses"><T k="common.back" /></Link></div>;
 
   const currentLesson = lesson;
@@ -34,12 +34,12 @@ export function LiveLessonPage() {
     <div>
       <Link to={`/courses/${course.id}`}>← <Lang>{course.title}</Lang></Link>
       <h1 style={{ marginBlockStart: 8 }}><Lang>{currentLesson.title}</Lang></h1>
-      {currentLesson.duration_minutes && <p className="muted">{currentLesson.duration_minutes} min</p>}
+      {currentLesson.duration_minutes && <p className="muted">{currentLesson.duration_minutes} <C>min</C></p>}
     </div>
     <article className="card stack" aria-label={currentLesson.title}>
-      {body ? <p style={{ whiteSpace: 'pre-wrap' }}><Lang>{body}</Lang></p> : <Notice>This lesson has no written content yet.</Notice>}
+      {body ? <p style={{ whiteSpace: 'pre-wrap' }}><Lang>{body}</Lang></p> : <Notice><C>This lesson has no written content yet.</C></Notice>}
     </article>
-    {!signedIn && <Notice><Link to="/sign-in"><T k="nav.signIn" /></Link> to save your progress.</Notice>}
+    {!signedIn && <Notice><Link to="/sign-in"><T k="nav.signIn" /></Link> <C>to save your progress.</C></Notice>}
     {error && <Notice tone="error">{error}</Notice>}
     <Button disabled={!signedIn || Boolean(completed[currentLesson.id])} onClick={() => void complete()} style={{ alignSelf: 'start' }}>
       {completed[currentLesson.id] ? '✓ ' : ''}<T k={completed[currentLesson.id] ? 'lesson.completed' : 'lesson.markComplete'} />

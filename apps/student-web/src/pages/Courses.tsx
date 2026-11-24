@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { T, useI18n } from '@gaabe/i18n';
+import { C, T, useI18n } from '@gaabe/i18n';
 import { Badge, Button, Lang } from '@gaabe/ui';
 import { usePublishedCourses } from '../production-content';
 
@@ -56,9 +56,9 @@ export function Courses() {
             </p>
           </Link>
         ))}
-        {loading && <p className="muted">Loading courses…</p>}
+        {loading && <p className="muted"><C>Loading courses…</C></p>}
         {error && <p className="muted">{error}</p>}
-        {!loading && !error && list.length === 0 && <p className="muted">No published courses are available yet.</p>}
+        {!loading && !error && list.length === 0 && <p className="muted"><C>No published courses are available yet.</C></p>}
       </div>
     </div>
   );

@@ -96,3 +96,17 @@ export function T({ k, vars }: { k: MessageKey; vars?: Vars }) {
   }
   return <>{r.text}</>;
 }
+
+/**
+ * Renders owner-reviewed static content. New content which has not been
+ * translated yet remains explicitly English instead of being mislabelled as
+ * Dhivehi; this keeps bidi and assistive technology behaviour correct.
+ */
+export function C({ children }: { children: string }) {
+  const { locale } = useI18n();
+  const text = locale === 'dv' ? reviewedContent[children as keyof typeof reviewedContent] : undefined;
+  if (locale === 'dv' && !text) {
+    return <span lang="en" dir="ltr">{children}</span>;
+  }
+  return <>{text ?? children}</>;
+}
