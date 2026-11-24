@@ -34,6 +34,11 @@ export function CourseDetail() {
           <Badge tone={course.access_tier === 'free' ? 'default' : 'gold'}>{course.access_tier === 'free' ? <T k="common.free" /> : <T k="common.premium" />}</Badge>
         </div>
       </div>
+      {course.teacher && <section className="card stack" aria-label="Teacher information">
+        <h2>{course.teacher.teacher_name}</h2>
+        {course.teacher.teacher_bio && <p className="muted">{course.teacher.teacher_bio}</p>}
+        {course.teacher.contact_email && <a href={`mailto:${course.teacher.contact_email}`}>{course.teacher.contact_email}</a>}
+      </section>}
       <p className="muted">{lessons.length} <T k="common.lessons" /></p>
       <h2><T k="courses.modules" /></h2>
       {course.course_modules.map((m) => (

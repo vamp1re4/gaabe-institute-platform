@@ -8,7 +8,7 @@ export const productionContentEnabled = enabled;
 
 export type LiveLesson = { id: string; title: string; position: number; duration_minutes: number | null; body: { content?: unknown } };
 export type LiveModule = { id: string; title: string; position: number; lessons: LiveLesson[] };
-export type LiveCourse = { id: string; slug: string; title: string; summary: string; access_tier: 'free' | 'premium'; course_modules: LiveModule[] };
+export type LiveCourse = { id: string; organization_id: string; slug: string; title: string; summary: string; access_tier: 'free' | 'premium'; course_modules: LiveModule[]; teacher?: { teacher_name: string; teacher_bio: string; contact_email: string | null } };
 
 function normalize(value: unknown): LiveCourse[] {
   return Array.isArray(value) ? value as LiveCourse[] : [];
@@ -17,14 +17,21 @@ function normalize(value: unknown): LiveCourse[] {
 async function readCourses(courseId?: string) {
   if (!clients) return [];
   let query = clients.supabase.from('courses')
-    .select('id, slug, title, summary, access_tier, course_modules(id, title, position, lessons(id, title, position, duration_minutes, body))')
+    .select('id, organization_id, slug, title, summary, access_tier, course_modules(id, title, position, lessons(id, title, position, duration_minutes, body))')
     .eq('status', 'published')
     .order('published_at', { ascending: false });
   if (courseId) query = query.eq('id', courseId);
   const { data, error } = await query;
   if (error) throw error;
-  return normalize(data).map((course) => ({
+  const courses = normalize(data);
+  const organizationIds = [...new Set(courses.map((course) => course.organization_id))];
+  const { data: profiles } = organizationIds.length
+    ? await clients.supabase.from('organization_public_profiles').select('organization_id, teacher_name, teacher_bio, contact_email').in('organization_id', organizationIds)
+    : { data: [] as { organization_id: string; teacher_name: string; teacher_bio: string; contact_email: string | null }[] };
+  const byOrganization = new Map((profiles ?? []).map((profile) => [profile.organization_id, profile]));
+  return courses.map((course) => ({
     ...course,
+    teacher: byOrganization.get(course.organization_id),
     course_modules: [...(course.course_modules ?? [])].sort((a, b) => a.position - b.position).map((module) => ({ ...module, lessons: [...(module.lessons ?? [])].sort((a, b) => a.position - b.position) })),
   }));
 }
